@@ -1,0 +1,98 @@
+--------------------:Meta Characters:--------------------
+[] A set of characters
+\ Signals a special sequence (can also be used to escape special characters)
+. Any character (except newline character)
+^ Starts with
+$ Ends with
+* Zero or more occurrences
++ One or more occurrences
+{} Exactly the specified number of occurrences
+| Either or
+() Capture and group
+
+
+--------------------:Special Sequences:--------------------
+\A Returns a match if the specified characters are at the beginning of the string
+\b Returns a match where the specified characters are at the beginning or at the end of a word r"ain\b"
+\B Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word
+
+\d Returns a match where the string contains digits (numbers from 0-9)
+\D Returns a match where the string DOES NOT contain digits
+\s Returns a match where the string contains a white space character
+\S Returns a match where the string DOES NOT contain a white space character
+\w Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character)
+\W Returns a match where the string DOES NOT contain any word characters
+\Z Returns a match if the specified characters are at the end of the string
+
+
+--------------------:Quantifiers:--------------------
+Symbol		Name				Quantification of previous character
+
+?			Question Mark		Optional (0 or 1 repetitions)
+*			Asterisk			Zero or more times
++			Plus Sign			One or more times
+{n,m}		Curly Braces		Between n and m times
+
+
+--------------------:Compilation Flags:--------------------
+Syntax							Meaning
+
+re.IGNORECASE or re.I			ignore case.
+re.MULTILINE or re.M			make begin/end boundary matchers (^, $) consider each line.
+re.DOTALL or re.S				make . match newline too.
+re.UNICODE or re.U				make {\w, \W, \b, \B} follow Unicode rules.
+re.LOCALE or re.L				make {\w, \W, \b, \B} follow locale.
+re.ASCII or re.A				make {\w, \W, \b, \B} perform ASCII-only matching.
+re.VERBOSE or re.X				allow comment in regex.
+re.DEBUG						get information about the compilation pattern.
+
+--------------------:Grouping:--------------------
+By placing part of a regular expression inside round brackets or parentheses (, ), you can group that part of the regex pattern together.
+
+
+--------------------:Backreferencing:--------------------
+Backreferences in a pattern allow you to specify that the contents of an earlier capturing group must also be found at the current location in the string.
+For example, \1 will succeed if the exact contents of group 1 can be found at the current position, and fails otherwise.
+
+
+--------------------:Named Groups:--------------------
+(?P<name>pattern).
+to make a group non-capturing, we have to use the syntax (?:pattern).
+Use												Syntax
+
+Inside a pattern								(?P=name)
+In the repl string of the sub operation			\g<name>
+In any of the operations of the MatchObject		match.group('name')
+
+
+--------------------:Look ahead:--------------------
+1. Positive look ahead :- A(?=B) where A is the actual expression and B is the non-consuming expression.
+2. Negative look ahead :- A(?!B) where A is the actual expression and B is the non-consuming expression.
+--------------------:Look behind:--------------------
+1. Positive look behind :- (?<=B)A where A is the actual expression and B is the non-consuming expression.
+2. Negative look behind :- (?<!B)A where A is the actual expression and B is the non-consuming expression.
+
+
+re.split(pattern, text)
+
+
+
+
+
+
+######## highlight regex matches ########
+import re
+from colorama import Back, Style
+
+def highlight_regex_matches(pattern, text, print_output=True):
+	output = text
+	len_inc = 0
+	for match in pattern.finditer(text):
+		start, end = match.start() + len_inc, match.end() + len_inc
+		output = output[:start] + Back.YELLOW + Style.BRIGHT + output[start:end] + Style.RESET_ALL + output[end:]
+		len_inc = len(output) - len(text)  
+
+	if print_output:
+		print(output)
+	else:
+		return output
