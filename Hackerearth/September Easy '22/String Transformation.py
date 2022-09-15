@@ -6,7 +6,8 @@ import os,sys
 from re import L
 from io import BytesIO, IOBase
 from collections import defaultdict
-import collections
+from sys import setrecursionlimit
+setrecursionlimit(10**7)
 
 
 
@@ -23,45 +24,41 @@ def read():
     sys.stdout = open('./output.txt', 'w')
 
 def main():
-    def check_string(i,j,flag):
-        print(i,j)
-        if i==n and j==m:
-            flag[0] = True
-        if i>=n or j>=m:
-            return
-        if s[i]==t[j]:
-            check_string(i+1,j+1,flag)
-        else:
-            if s[i]!=t[j] and t[j].isdigit():
-                print(i,j)
-                digit = int(t[j])
-                for k in range(i,i+digit+1):
-                    print(i,j,k)
-                    if k<n and (j+1)<m and s[k] == t[j+1]:
-                        print(k,j+1)
-                        check_string(k,j+1,flag)
-            
-    
-    
+    import pandas, numpy
     for _ in range(ii()):
         n, m = mi()
         s = si()
         t = si()
         
-        count = m
-        for i in range(len(t)):
-            if t[i].isdigit():
-                count += int(t[i])-1
-        print(n,count)
-        if n>count:
-            print("NO")
-        else:
-            flag = [False]
-            check_string(0,0,flag)
-            if flag[0]:
-                print("YES")
+        dp = [[False for i in range(m)] for i in range(n)]
+        while (l<m and t[l] == '0'):
+            l+=1
+        
+        if l<m: 
+            if (t[l].isdigit()):
+                for i in range(min(max(int(t[l]),1), n)):
+                    dp[i][l] = True
+            elif (t[l] == s[0]):
+                dp[0][l] = True
+        
+        for j in range(l+1, m):
+            if t[j].isdigit():
+                last_true, d = -1, int(t[j])
+                for i in range(n):
+                    if dp[i][j-1]:
+                        last_true = i
+                    if (last_true >= 0 and i-last_true <= d):
+                        dp[i][j] = True
             else:
-                print("NO")
+                for i in range(1, n):
+                    if (s[i] == t[j] and dp[i - 1][j - 1]):
+                        dp[i][j] = True
+        
+        if (dp[n - 1][m - 1]):
+            print("YES")
+        else:
+            print("NO")
+        # print(pandas.DataFrame(data = dp, index=list(s), columns=list(t)))
                 
     return
 

@@ -7,6 +7,7 @@ from re import L
 from io import BytesIO, IOBase
 from collections import defaultdict
 import collections
+# import numpy as np
 
 
 
@@ -24,14 +25,47 @@ def read():
 
 def main():
     n, m = mi()
-    arr = [li() for j in range(m)]
-    print(arr)
+    arr = [li() for j in range(n)]
+    
+    bit_range = 30
+    
+    # pref = np.zeros((bit_range, n, m), dtype=np.uint32)
+    pref = [[[0 for i in range(m)] for j in range(n)] for k in range(bit_range)]
+    
+    for bit in range(bit_range):
+        for i in range(n):
+            for j in range(m):
+                if arr[i][j] & (1<<bit):
+                    pref[bit][i][j] += 1
+    
+    for bit in range(bit_range):
+        for i in range(1,n):
+            pref[bit][i][0] += pref[bit][i-1][0]
+        for j in range(1,m):
+            pref[bit][0][j] += pref[bit][0][j-1]
+        for i in range(1,n):
+            for j in range(1,m):
+                pref[bit][i][j] += pref[bit][i-1][j] + pref[bit][i][j-1] - pref[bit][i-1][j-1]
+                    
+    # print(pref)
     
     for q in range(ii()):
-        x1, y2, x2, y2 = mi()
+        x1, y1, x2, y2 = mi()
         
+        ans = 0
+        x1, y1, x2, y2 = x1-1, y1-1, x2-1, y2-1
+        for bit in range(bit_range):
+            bits = pref[bit][x2][y2]
+            if x1-1 > 0:
+                bits -= pref[bit][x1-1][y1]
+            if y1-1 > 0:
+                bits -= pref[bit][x1][y1-1]
+            if (x1-1) > 0 and (y1-1) > 0:
+                bits += pref[bit][x1-1][y1-1]
+            if bits > 0:
+                ans |= (1<<bit)
         
-                    
+        print(ans)
     return
 
 

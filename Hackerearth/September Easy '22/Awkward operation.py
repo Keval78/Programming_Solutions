@@ -26,9 +26,18 @@ def main():
         a = li()
         b = li()
         
-        if sum(a) == sum(b):
-            for i in range(1, len(a)-1):
-                print(a[i-1,i+2], b[i-1,i+2], a[i-1]+a[i]+a[i+1], b[i-1]+b[i]+b[i+1])
+        for i in range(1,N):
+            a[i] += a[i-1]
+            b[i] += b[i-1]
+        if a[N-1] == b[N-1]:
+            a.sort()
+            b.sort()
+            for i in range(1, N-1):
+                if a[i] != b[i]:
+                    print("NO")
+                    break
+            else:
+                print("YES")
         else:
             print("NO")
         
