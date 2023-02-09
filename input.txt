@@ -1,7 +1,12 @@
-2
-4 1
-abcd
-9
-4 3
-abcd
-ac9
+3
+10
+new laptop  
+new bag 
+new LCD 
+print laptop 
+new keyboard 
+del laptop 
+new chair 
+del keyboard 
+print keyboard 
+del laptop
