@@ -14,7 +14,13 @@ def main():
 
 # End main section
 
-
+'''
+###### * User Profile : Keval_78 
+LinkedIn: https://www.linkedin.com/in/kevalpadsala78/
+Github: https://github.com/Keval78
+Leetcode: https://leetcode.com/Keval_78/
+Codechef: https://www.codechef.com/users/keval_78
+'''
 
 
 
@@ -26,8 +32,6 @@ def main():
 
 ###### * region fastio ######
 ###### * template taken from https://github.com/cheran-senthil/PyRival/blob/master/templates/template.py ######
-###### * Author : Keval_78
-###### * Date   : 7th OCT 2021
 
 def ii():  return int(input())
 def si():  return input()
