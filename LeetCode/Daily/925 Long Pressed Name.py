@@ -28,18 +28,22 @@ def li(ss=" "):  return list(mi(ss))
 
 def main():
     class Solution:
-        def thirdMax(self, nums: List[int]) -> int:
-            nums.sort(reverse=True)
-            uniq = 0
-            last = nums[0]
-            for i in range(len(nums)):
-                if nums[i]!=last: uniq+=1
-                last = nums[i]
-                if uniq == 2: return nums[i]
-            return nums[0]
+        def isLongPressedName(self, name: str, typed: str) -> bool:
+            ni = 0       # index of name
+            ti = 0       # index of typed
+            while ni <= len(name) and ti < len(typed):
+                if ni < len(name) and typed[ti] == name[ni]:
+                    ti += 1
+                    ni += 1
+                elif typed[ti] == name[ni-1] and ni != 0:
+                    ti += 1
+                else:
+                    return False
+                
+            return ni == len(name) and ti == len(typed)
+
     
-    # Create Heap for Optimal Solution.
-    Solution().thirdMax(nums = [3,2,1])
+    Solution()
 
 
 if __name__ == "__main__":
