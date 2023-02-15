@@ -28,14 +28,13 @@ def li(ss=" "):  return list(mi(ss))
 
 def main():
     class Solution:
-        def isLongPressedName(self, name: str, typed: str) -> bool:
-            np, tp = 0, 0
-            while np<=len(name) and tp<len(typed):
-                if np < len(name) and name[np] == typed[tp]: np, tp = np + 1, tp + 1
-                elif np!=0 and typed[tp]==name[np-1]: tp = tp + 1
-                else: return False
-            return np==len(name) and tp==len(typed)
-    Solution()
+        def categorizeBox(self, length: int, width: int, height: int, mass: int) -> str:
+            if (length>=10**4 or width>=10**4 or height>=10**4 or length*width*height>=10**9) and mass>=100: return "Both"
+            if length>=10**4 or width>=10**4 or height>=10**4 or length*width*height>=10**9: return "Bulky"
+            if mass>=100: return "Heavy"
+            return "Neither"
+    
+    Solution().categorizeBox(length = 1000, width = 35, height = 700, mass = 300)
 
 
 if __name__ == "__main__":
