@@ -8,22 +8,23 @@ Leetcode: https://leetcode.com/Keval_78/
 Reference: https://github.com/TheAlgorithms/Python/blob/master/data_structures/linked_list/singly_linked_list.py
 '''
 
+from typing import Generic, TypeVar
 
-from typing import Any
+T = TypeVar("T")
 
-class Node:
-    def __init__(self, data: Any):
+class Node(Generic[T]):
+    def __init__(self, data: T):
         self.data = data
         self.next = None
 
     def __repr__(self) -> str:
         return f"Node({self.data})"
 
-class LinkedList:
+class LinkedList(Generic[T]):
     def __init__(self):
         self.head = None
     
-    def __iter__(self) -> Any:
+    def __iter__(self) -> T:
         node = self.head
         while node:
             yield node.data
@@ -35,14 +36,14 @@ class LinkedList:
     def __repr__(self) -> str:
         return "->".join([str(item) for item in self])
 
-    def __getitem__(self, index: int) -> Any:
+    def __getitem__(self, index: int) -> T:
         if not 0 <= index < len(self):
             raise ValueError("list index out of range.")
         for i, node in enumerate(self):
             if i == index:
                 return node
     
-    def __setitem__(self, index: int, data: Any) -> None:
+    def __setitem__(self, index: int, data: T) -> None:
         if not 0 <= index < len(self):
             raise ValueError("list index out of range.")
         current = self.head
@@ -50,13 +51,13 @@ class LinkedList:
             current = current.next
         current.data = data
 
-    def insert_head(self, data: Any) -> None:
+    def insert_head(self, data: T) -> None:
         return self.insert_nth(0, data)
 
-    def insert_tail(self, data: Any) -> None:
+    def insert_tail(self, data: T) -> None:
         return self.insert_nth(len(self), data)
 
-    def insert_nth(self, index: int, data: Any) -> None:
+    def insert_nth(self, index: int, data: T) -> None:
         new_node = Node(data)
         if self.head is None:
             self.head = new_node
@@ -73,13 +74,13 @@ class LinkedList:
     def print_list(self) -> None:
         print(self)
     
-    def delete_head(self) -> Any:
+    def delete_head(self) -> T:
         return self.delete_nth()
     
-    def delete_tail(self) -> Any:
+    def delete_tail(self) -> T:
         return self.delete_nth(len(self))
     
-    def delete_nth(self, index: int = 0) -> Any:
+    def delete_nth(self, index: int = 0) -> T:
         if not 0 <= index < len(self):
             raise IndexError("list index out of range.")
         delete_node = self.head
