@@ -93,3 +93,26 @@ class LinkedList(Generic[T]):
             delete_node = temp.next
             temp.next = temp.next.next
         return delete_node.data
+    
+    def reverse(self) -> None:
+        prev, curr = None, self.head
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+        self.head = prev
+    
+    def middle(self)-> T:
+        slow, fast = self.head, self.head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        return slow.data
+    
+    def circular(self) -> bool:
+        #return true if empty list.
+        if self.head == None: return True
+        node = self.head
+        while node and node!=head: node = node.next
+        return node==head
