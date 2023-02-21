@@ -51,7 +51,28 @@ class BinaryTree():
     
     def depth_of_tree(tree: BinaryTree | None) -> int:
         return 1 + max(self.depth_of_tree(tree.left), self.depth_of_tree(tree.right)) if tree else 0
+    
+    def depth_of_tree_iterative(tree: BinaryTree | None) -> int:
+        # Base Case
+        if tree is None: return 0
+        queue = []
+        queue.append(tree)
+        height = 0
+        while(True):
+            # node_count(queue size) indicates number of nodes at current level
+            node_count = len(queue)
+            if node_count == 0: return height
+            height += 1
 
+            # Dequeue all nodes of current level and Enqueue all nodes of next level
+            while(node_count > 0):
+                node = queue[0]
+                queue.pop(0)
+                if node.left is not None:
+                    queue.append(node.left)
+                if node.right is not None:
+                    queue.append(node.right)
+                node_count -= 1
 
 
     # DFS
@@ -227,6 +248,16 @@ class BinaryTree():
         if not tree: return True
 
     # Balanced Binary Tree: 
+    # The left and right subtrees of every node differ in height by no more than 1.
+    def is_balanced_binary_tree(tree: BinaryTree) -> bool:
+        def height(tree: BinaryTree) -> int:
+            if not tree: return 0
+            lh = self.is_balanced_binary_tree(tree.left)
+            rh = self.is_balanced_binary_tree(tree.right)
+            if (lh==-1 or rh==-1): return -1
+            if abs(lh-rh) > 1: return -1
+            return 1 + max(lh, rh)
+        return height(tree) !== -1
 
 
 
