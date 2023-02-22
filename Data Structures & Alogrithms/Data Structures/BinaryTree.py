@@ -10,7 +10,6 @@ Reference: https://github.com/TheAlgorithms/Python/blob/master/data_structures/b
     
 
 class BinaryTree():
-    class BinaryTree:
     def __init__(self, data: int) -> None:
         self.data: int = data
         self.left: BinaryTree | None = None
@@ -44,10 +43,10 @@ class BinaryTree():
         return s
     
     def display(tree: BinaryTree | None) -> None:
-    if tree:
-        self.display(tree.left)
-        print(tree.data)
-        self.display(tree.right)
+        if tree:
+            self.display(tree.left)
+            print(tree.data)
+            self.display(tree.right)
     
     def depth_of_tree(tree: BinaryTree | None) -> int:
         return 1 + max(self.depth_of_tree(tree.left), self.depth_of_tree(tree.right)) if tree else 0
@@ -77,7 +76,7 @@ class BinaryTree():
 
     # DFS
     def dfs(tree: BinarTree) -> None:
-        if is not tree:
+        if not tree:
             return
         self.dfs(tree.left)
         print(tree.data, end=" ")
@@ -128,7 +127,7 @@ class BinaryTree():
 
     # Preorder Traversal: Root-Left-Right
     def preorder(tree: BinaryTree) -> None:
-        if is not tree:
+        if not tree:
             return
         print(tree.data, end=" ")
         self.preorder(tree.left)
@@ -151,7 +150,7 @@ class BinaryTree():
 
     # Postorder Traversal: Left-Right-Root
     def postorder(tree: BinaryTree) -> None:
-        if is not tree:
+        if not tree:
             return
         print(tree.data, end=" ")
         self.postorder(tree.right)
@@ -169,7 +168,7 @@ class BinaryTree():
             if temp == None:
                 temp = stack.pop()
                 print(temp.data, end=" ")
-                while len(stack)>0 and temp=stack[-1].right:
+                while len(stack)>0 and temp==stack[-1].right:
                     temp = stack.pop()
                     print(temp.data, end=" ")
             else:
@@ -257,7 +256,7 @@ class BinaryTree():
             if (lh==-1 or rh==-1): return -1
             if abs(lh-rh) > 1: return -1
             return 1 + max(lh, rh)
-        return height(tree) !== -1
+        return height(tree) != -1
     
     # Diameter of Binary Tree.
     # The diameter of a binary tree is the length of the longest path between any two nodes in a tree.
@@ -279,7 +278,7 @@ class BinaryTree():
     
     def diameter(tree: BinaryTree) -> int:
         maxx = 0
-            def diameter1(tree: BinaryTree) -> int:
+        def diameter1(tree: BinaryTree) -> int:
             if not tree: return 0
             lh = self.diameter1(tree.left)
             rh = self.diameter1(tree.right)
@@ -366,8 +365,9 @@ class BinaryTree():
             result.append[tmp[i]]
     
 
-    # * ! Error 
-    def vertical_order_traversal(tree: BinarTree) -> List[List[int]]
+    # ! Error 
+    # ! 13afceb8d94827984394efa22ec61f1e
+    def vertical_order_traversal(tree: BinarTree) -> List[List[int]]:
         
         # Base case
         if tree is None: return
@@ -438,7 +438,7 @@ class BinaryTree():
     
     def find_successor(tree: BinaryTree, node: BinaryTree) -> BinaryTree:
         successor = None
-        while is not tree:
+        while not tree:
             if node.data >= tree.data:
                 tree = tree.right
             else:
