@@ -258,6 +258,141 @@ class BinaryTree():
             if abs(lh-rh) > 1: return -1
             return 1 + max(lh, rh)
         return height(tree) !== -1
+    
+    # Diameter of Binary Tree.
+    # The diameter of a binary tree is the length of the longest path between any two nodes in a tree.
+    # This path may or may not pass through the root.
+    # The length of path between two nodes is represented by the number of edges between them.
+    def diameter_brute_force(tree: BinaryTree, maxx: int = 0) -> int:
+        if not tree: return 0
+        lh = self.depth_of_tree(tree.left)
+        rh = self.depth_of_tree(tree.right)
+
+         # Return max of the following tree:
+        # 1) Diameter of left subtree
+        # 2) Diameter of right subtree
+        # 3) Height of left subtree + height of right subtree
+        maxx = max(maxx, lh+rh)
+        maxx = max(maxx, self.diameter_brute_force(tree.left, maxx))
+        maxx = max(maxx, self.diameter_brute_force(tree.right, maxx))
+        return maxx
+    
+    def diameter(tree: BinaryTree) -> int:
+        maxx = 0
+            def diameter1(tree: BinaryTree) -> int:
+            if not tree: return 0
+            lh = self.diameter1(tree.left)
+            rh = self.diameter1(tree.right)
+            maxx = max(maxx, lh+rh)
+            return 1 + max(lh, rh)
+        return maxx
+    
+    def max_path_sum(tree: BinaryTree, maxpathsum: int = 0) -> int:
+        maxpathsum = 0
+        def max_path_sum1(tree: BinaryTree) -> int:
+            if not tree: return 0
+            maxl = self.max_path_sum1(tree.left)
+            maxr = self.max_path_sum1(tree.right)
+            maxpathsum = max(maxpathsum,  tree.data + maxl + maxr)
+            return tree.data + max(maxl, maxr)
+        return maxpathsum
+    
+    def is_identical(p: BinaryTree, q: BinarTree) -> bool:
+        if not p or not q:
+            return p==q
+        return p.data==q.data and is_identical(p.left, q.left) and is_identical(p.right, q.right)
+    
+    def zig_zag_level_order(tree: BinaryTree) -> List[List[int]]:
+        result = []
+        if not tree: return result
+        
+        queue = [] # queue for adding each level of nodes.
+        flag = True # True denotes to left->right traversal.
+
+        while len(queue) > 0:
+            length = len(queue)
+            row = [0]*length
+            for i in range(length):
+                node = queue.pop(0)
+                ind = i if flag else length-i-1
+                row[ind] = node.data
+                if node.left: queue.push(node.left)
+                if node.right: queue.push(node.right)
+            
+            flag = not flag
+            result.append(row)
+        return result
+
+
+    # Boundery Traversal
+    # 1. Left Boundry excluding leaf.
+    # 2. Leaf Nodes.
+    # 3. Right Boundry excluding leaf.
+    def boundry_traversal(tree: BinaryTree) -> List[int]:
+        result = []
+        if not tree: return result
+        result.append(tree.data)
+        
+        # Left Boundry excluding leaf.
+        curr = tree.left
+        while curr:
+            if curr.left or curr.right: result.append[curr.data]
+            if curr.left: curr = curr.left
+            else: curr = curr.right
+
+        # Leaf Nodes.
+        curr = tree
+        stack = [curr]
+        # Run loop till stack gets empty.
+        while(len(stack) > 0):
+            # print the root node.
+            node = stack.pop()
+            if curr.left or curr.right:
+                result.append(curr.data)
+            
+            # push the right node first into stack so, it pop out later.
+            if node.right is not None: stack.append(node.right)
+            if node.left is not None: stack.append(node.left)
+
+
+        # Right Boundry excluding leaf.
+        curr = tree.right
+        tmp = []
+        while curr:
+            if curr.left or curr.right: tmp.append[curr.data]
+            if curr.right: curr = curr.right
+            else: curr = curr.left
+        for i in range(len(tmp)-1, -1, -1):
+            result.append[tmp[i]]
+    
+
+    # * ! Error 
+    def vertical_order_traversal(tree: BinarTree) -> List[List[int]]
+        
+        # Base case
+        if tree is None: return
+
+        # Create empty queue for level order traversal
+        queue = [tree]
+        x_axis, y_axis = 0, 0
+
+        # create a map to store nodes at a particular
+        # horizontal distance
+        result_map = {}
+        
+        return []
+    
+
+
+
+    
+
+
+
+
+
+
+    
 
 
 
