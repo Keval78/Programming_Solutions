@@ -83,3 +83,5 @@ class Stack(Generic[T]):
     def __contains__(self, item: T) -> bool:
         """Check if item is in stack"""
         return item in self.stack
+    
+    

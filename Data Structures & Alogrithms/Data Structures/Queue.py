@@ -49,5 +49,5 @@ class Queue(Generic[T]):
         self.queue = self.queue[1:]
         return dequeued
     
-     def size(self):
+    def size(self):
         return self.length

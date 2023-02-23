@@ -152,9 +152,9 @@ class BinaryTree():
     def postorder(tree: BinaryTree) -> None:
         if not tree:
             return
-        print(tree.data, end=" ")
-        self.postorder(tree.right)
         self.postorder(tree.left)
+        self.postorder(tree.right)
+        print(tree.data, end=" ")
     
     def postorder_iterative(tree: BinaryTree) -> None:
         # create an empty stack and push root to it
@@ -365,12 +365,12 @@ class BinaryTree():
             result.append[tmp[i]]
     
 
-    # ! Error 
-    # ! 13afceb8d94827984394efa22ec61f1e
+    # Vertical Order Traversal
+    #
     def vertical_order_traversal(tree: BinarTree) -> List[List[int]]:
         
         # Base case
-        if tree is None: return
+        if tree is None: return []
 
         # Create empty queue for level order traversal
         queue = [tree]
@@ -381,6 +381,59 @@ class BinaryTree():
         result_map = {}
         
         return []
+    
+    # Top View of Binary Tree
+    def topview(tree: BianryTree) -> List[int]:
+        result = []
+        if not tree: return result
+
+        return []
+    
+    # Print Root to Node Path in Binary Tree
+    def printpath_iterative(tree: BinaryTree, node: BinaryTree) -> List[int]:
+        # create an empty stack and push root to it
+        stack = []
+        stack.append(tree)
+        curr = tree
+        while True:
+            if curr is not None:
+                stack.append(curr)
+                curr = curr.left
+            else:
+                if len(stack) == 0 or curr.data == node.data:
+                    break
+                curr = stack.pop()
+                curr = curr.right
+        return stack
+    
+    def printpath(tree: BinaryTree, node: BinaryTree) -> List[int]:
+        # create an empty stack and push root to it
+        result = []
+        if not tree: return result
+        
+        def getpath(curr: BinaryTree, result: List[int], node: BinaryTree) -> None:
+            # Reached to leaf node and node not found. return False and pop the value after if condition.
+            if not curr: return False
+            
+            result.append(curr.data)
+            # Retrn true id Node found.
+            if curr.data == node.data: return True
+
+            # Return true if any child has node available int there path.
+            if getpath(curr.left, result, node) or getpath(curr.left, result, node): return True
+            
+            # Else pop the value from stack and return false. 
+            result.pop()
+            return False
+
+
+        curr = tree
+        getpath(curr, result, node)
+        return result
+    
+
+    
+
     
 
 
