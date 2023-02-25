@@ -1,24 +1,37 @@
-'''
-###### * User Profile : Keval_78 
+"""
+###### * User Profile : Keval_78
 LinkedIn: https://www.linkedin.com/in/kevalpadsala78/
 Github: https://github.com/Keval78
 Leetcode: https://leetcode.com/Keval_78/
-'''
-'''
-Reference: https://github.com/TheAlgorithms/Python/blob/master/data_structures/queue/double_ended_queue.py
-'''
+
+Reference:
+https://github.com/TheAlgorithms/Python/blob/master/data_structures/queue/double_ended_queue.py
+"""
 
 from __future__ import annotations
-
 from collections.abc import Iterable
 from dataclasses import dataclass
 from typing import Any
 
 
+# * User Profile : Keval_78
+# LinkedIn: https://www.linkedin.com/in/kevalpadsala78/
+# Github: https://github.com/Keval78
+# Leetcode: https://leetcode.com/Keval_78/
+
+
 class Deque:
+    """_summary_
+
+    Raises:
+        StopIteration: _description_
+
+    Returns:
+        _type_: _description_
+    """
 
     __slots__ = ["_front", "_back", "_len"]
-    
+
     @dataclass
     class _Node:
         """
@@ -28,7 +41,7 @@ class Deque:
         val: Any = None
         next_node: Deque._Node | None = None
         prev_node: Deque._Node | None = None
-    
+
     class _Iterator:
         """
         Helper class for iteration. Will be used to implement iteration.
@@ -51,5 +64,7 @@ class Deque:
                 raise StopIteration
             val = self._cur.val
             self._cur = self._cur.next_node
+
+            print("bnnb")
 
             return val
