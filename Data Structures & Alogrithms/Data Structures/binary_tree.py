@@ -108,9 +108,9 @@ class BinaryTree:
         """
         if root is None:
             return
-        self.dfs(root.left)
-        print(root.data, end=" ")
-        self.dfs(root.right)
+        yield from self.dfs(root.left)
+        yield root
+        yield from self.dfs(root.right)
 
     def dfs_iterative(self, root: Node) -> None:
         """Iterative Inorder traversal of binary tree.
@@ -136,7 +136,7 @@ class BinaryTree:
                 if len(stack) == 0:
                     return
                 curr = stack.pop()
-                print(curr.data, end=" ")
+                yield curr # print(curr.data, end=" ")
                 # We have visited the node and its left
                 # subtree. Now, it's right subtree's turn
                 curr = curr.right
@@ -151,7 +151,8 @@ class BinaryTree:
         queue.append(root)
         while len(queue) > 0:
             curr = queue.pop(0)
-            print(curr.data)
+            yield curr
+            # print(curr.data)
             if curr.left is not None:
                 queue.append(curr.left)
             if curr.right is not None:
@@ -168,9 +169,9 @@ class BinaryTree:
         """
         if not root:
             return
-        print(root.data, end=" ")
-        self.preorder(root.left)
-        self.preorder(root.right)
+        yield root # print(root.data, end=" ")
+        yield from self.preorder(root.left)
+        yield from self.preorder(root.right)
 
     def preorder_iterative(self, root: Node) -> None:
         """Preorder Traversal: Root-Left-Right
@@ -183,7 +184,7 @@ class BinaryTree:
         while len(stack) > 0:
             # print the root node.
             node = stack.pop()
-            print(node.data, end=" ")
+            yield node # print(node.data, end=" ")
             # push the right node first into stack so, it pop out later.
             if node.right is not None:
                 stack.append(node.right)
@@ -196,9 +197,9 @@ class BinaryTree:
         """
         if not root:
             return
-        self.postorder(root.left)
-        self.postorder(root.right)
-        print(root.data, end=" ")
+        yield from self.postorder(root.left)
+        yield from self.postorder(root.right)
+        yield root # print(root.data, end=" ")
 
     def postorder_iterative(self, root: Node) -> None:
         """Postorder Traversal: Left-Right-Root
@@ -214,10 +215,10 @@ class BinaryTree:
             temp = stack[-1].right
             if temp is None:
                 temp = stack.pop()
-                print(temp.data, end=" ")
+                yield temp # print(temp.data, end=" ")
                 while len(stack) > 0 and temp == stack[-1].right:
                     temp = stack.pop()
-                    print(temp.data, end=" ")
+                    yield temp # print(temp.data, end=" ")
             else:
                 curr = temp
 
@@ -321,6 +322,17 @@ class BinaryTree:
                 return -1
             return 1 + max(left_height, right_height)
         return height(root) != -1
+
+    def is_binary_search_tree(self, root: Node) -> bool:
+        """Binary Search Tree:
+            Ordered or Sorted Binary Tree
+        """
+        last_node = None  # type: Optional[BinaryTree]
+        for node in self.dfs(root):
+            if last_node and last_node.value >= node.value:
+                return False
+            last_node = node
+        return True
 
     def diameter_brute_force(self, root: Node, maxx: int = 0) -> int:
         """Diameter of Binary Tree.
@@ -544,6 +556,49 @@ class BinaryTree:
         getpath(curr, result, node)
         return result
 
+
+    # >>>>>> Binary Search Tree functions ftarts
+    def insert(self, root: Node, node: Node) -> Node:
+        """Insert element into binary tree.
+            Returns the root node of the tree after inserting value.
+        """
+        if root is None:
+            return node
+        if root.data < node.data:
+            root.right = self.insert(root.right, node)
+        elif root.data > node.data:
+            root.left = self.insert(root.left, node) 
+        else:
+            print("Element already present")
+        return root
+    
+    def find(self, root: Node, data: int) -> Node:
+        """Find the node if it exist in the tree.
+        """
+        curr = root
+        while curr:
+            if data < curr.data:
+                curr = curr.left
+            elif (data > curr.data):
+                curr = curr.right
+            else:
+                return curr
+        return None
+    
+    def delete(self, root: Node, data: int) -> Node:
+        node = self.find(root, data)
+        return root
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # <<<<<< Binary Search Tree functions ends
     # def find(tree: BinaryTree, data: int) -> BinaryTree:
     #     curr = tree
     #     while curr:
