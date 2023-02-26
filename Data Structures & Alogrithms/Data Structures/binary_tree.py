@@ -12,6 +12,7 @@ https://gist.github.com/jtribble/e5bcfc16b82a2547c22fc39877e81217
 
 from dataclasses import dataclass
 from typing import List, Optional
+from collections import defaultdict, OrderedDict
 
 
 @dataclass
@@ -19,8 +20,8 @@ class Node:
     """Dataclass represing node of the tree.
     """
     data: int
-    left: Optional['BinaryTree._Node'] = None
-    right: Optional['BinaryTree._Node'] = None
+    left: Optional['Node'] = None
+    right: Optional['Node'] = None
 
 # Create node
 # node = Node(val, None, None)
@@ -475,37 +476,98 @@ class BinaryTree:
                 curr = curr.left
         for i in range(len(tmp)-1, -1, -1):
             result.append(tmp[i])
-
-    # Vertical Order Traversal
-    #
+        return result
 
     def vertical_order_traversal(self, root: Node) -> List[List[int]]:
-        """_summary_
+        """Vertical Order Traversal
         """
         # Base case
         result = []
         if root is None:
             return result
 
+        nodes = defaultdict(dict)
         # Create empty queue for level order traversal
-        # queue = [root]
-        # x_axis, y_axis = 0, 0
+        queue = [(root, 0, 0)]
 
-        # create a map to store nodes at a particular
-        # horizontal distance
-        # result_map = {}
+        while len(queue) > 0:
+            temp = queue.pop(0)
+            node = temp[0]
+            x_axis, y_axis = temp[1], temp[2]
+            nodes[(x_axis, y_axis)].append(node.data)
+            if node.left:
+                queue.append((node.left, x_axis-1, y_axis+1))
+            if node.right:
+                queue.append((node.right, x_axis+1, y_axis+1))
 
-        return []
+        # for k,v in OrderedDict(sorted(data.keys()))
+        for k,v in sorted(nodes).items():
+            result.append(v)
+        return result
 
-    # Top View of Binary Tree
     def topview(self, root: Node) -> List[int]:
-        """_summary_
+        """Top View of Binary Tree
         """
         result = []
         if root is None:
             return result
+        
+        result_map = dict()
+        queue = [(root, 0)]
+        while len(queue) > 0:
+            temp = queue.pop(0)
+            node, x_axis = temp[0], temp[1]
+            if x_axis not in result_map:
+                result_map[x_axis] = node.data
+            if node.left:
+                queue.append((node.left, x_axis-1))
+            if node.right:
+                queue.append((node.right, x_axis+1))
 
+        # for k,v in OrderedDict(sorted(data.keys()))
+        for k,v in sorted(result_map).items():
+            result.append(v)
+        return result
+    
+    def bottomview(self, root: Node) -> List[int]:
+        """Bottom View of Binary Tree
+        """
+        result = []
+        if root is None:
+            return result
+        left_lst, right_lst = [], []
+        
+        queue = [(root, 0)]
+        while len(queue) > 0:
+            temp = queue.pop(0)
+            node, x_axis = temp[0], temp[1]
+            if x_axis>=0:
+                if x_axis < len(right_lst):
+                    right_lst[x_axis] = node.data
+                else:
+                    right_lst.append(node.data)
+            else:
+                if (-1*x_axis)-1 < len(left_lst):
+                    left_lst[(-1*x_axis)-1] = node.data
+                else:
+                    left_lst.append(node.data)
+            #result_map[x_axis] = node.data # Overwrite value of map
+            if node.left:
+                queue.append((node.left, x_axis-1))
+            if node.right:
+                queue.append((node.right, x_axis+1))
+
+        result = left_lst[::-1] + right_lst
+        return result
+        
+    def leftview(self, root: Node) -> List[int]:
         return []
+    
+    def rightview(self, root: Node) -> List[int]:
+        return []
+
+
+
 
     def printpath_iterative(self, root: Node, node: Node) -> List[int]:
         """Print Root to Node Path in Binary Tree
@@ -585,20 +647,106 @@ class BinaryTree:
                 return curr
         return None
     
-    def delete(self, root: Node, data: int) -> Node:
-        node = self.find(root, data)
-        return root
+    def find_parent(self, root: Node, data: int) -> Node:
+        """Find the node if it exist in the tree.
+        """
+        if root is None:
+            return None
+        curr = root
+        # Check if node does not have any child return None
+        if curr.left is not None and curr.right is not None:
+            return None
+        # Check for left value and right value. if match return current node.
+        if (curr.left and curr.left.data == data) or (curr,right and curr.right.data == data):
+            return curr
+        # compare values to decide where to go left/right.
+        if data < curr.data:
+            return self.find_parent(curr.left, data)
+        if data > curr.data:
+            return self.find_parent(curr.right, data)
 
     
+    def successor(self, root: Node, data: int) -> Node:
+        """Find the Successor node of the given node,
+        the node with the smallest key greater than the key of the input node.
+        """
+        node = self.find(root, data)
+        if node is None:
+            return
+        node = node.right
+        while node.left:
+            node = node.left
+        return node
+ 
+    def predecessor(self, root: Node, data: int) -> Node:
+        """Find the Predecessor node of the given node,
+        the maximum value in its left subtree.
+        """
+        node = self.find(root, data)
+        if node is None:
+            return
+        node = node.left
+        while node.right:
+            node = node.right
+        return node
     
-    
-    
-    
-    
-    
-    
+    def delete(self, root: Node, data: int) -> Node:
+        if root is None:
+            return
+        
+        node = self.find(root, data)
+        parent = self.find_parent(root, data)
+        
+        # if node has no child. Remove connection from parent node.
+        if node.left is None and node.right is None:
+            if parent is None:
+                del node
+                return None
+            else:
+                if parent.left is not None and node.data == parent.left.data:
+                    parent.left = None
+                else:
+                    parent.right = None
+                del node
+                return root
+        
+        # if node has only one child. connect parent node with child node.
+        if node.left is None:
+            if parent is None:
+                return node.right
+            if parent.left is not None and node.data == parent.left.data:
+                parent.left = node.right
+            else:
+                parent.right = node.right
+            del node
+            return root
+ 
+        elif node.right is None:
+            if parent is None:
+                return node.left
+            if parent.right is not None and node.data == parent.right.data:
+                parent.right = node.left
+            else:
+                parent.left = node.left
+            del node
+            return root
+
+        # if node has two child. replace node with inorder predecessor/successor. and connect predecessor/successor's parent with its child
+        else:
+            pred = self.predecessor(root, data)
+            # if pred is not None:
+            parent = self.find_parent(root, pred.data)
+            node.data = pred.data
+            parent.right = pred.left
+            del pred
+            return root
     
     # <<<<<< Binary Search Tree functions ends
+    
+    
+    
+    
+    
     # def find(tree: BinaryTree, data: int) -> BinaryTree:
     #     curr = tree
     #     while curr:
@@ -625,14 +773,3 @@ class BinaryTree:
     #         else:
     #             parent.right = leaf
 
-    def find_successor(self, root: Node, node: Node) -> Node:
-        """_summary_
-        """
-        successor = None
-        while root is None:
-            if node.data >= tree.data:
-                tree = tree.right
-            else:
-                successor = tree
-                tree = tree.left
-        return successor
