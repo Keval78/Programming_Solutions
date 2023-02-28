@@ -100,8 +100,7 @@ class BinaryTree:
                     queue.append(node.right)
                 node_count -= 1
 
-    # DFS
-    def dfs(self, root: Node) -> None:
+    def dfs(self, root: Node) -> Node:
         """Recursive Inorder traversal of binary tree.
 
         Args:
@@ -113,7 +112,7 @@ class BinaryTree:
         yield root
         yield from self.dfs(root.right)
 
-    def dfs_iterative(self, root: Node) -> None:
+    def dfs_iterative(self, root: Node) -> Node:
         """Iterative Inorder traversal of binary tree.
 
         Args:
@@ -137,7 +136,7 @@ class BinaryTree:
                 if len(stack) == 0:
                     return
                 curr = stack.pop()
-                yield curr # print(curr.data, end=" ")
+                yield curr  # print(curr.data, end=" ")
                 # We have visited the node and its left
                 # subtree. Now, it's right subtree's turn
                 curr = curr.right
@@ -159,18 +158,18 @@ class BinaryTree:
             if curr.right is not None:
                 queue.append(curr.right)
 
-    def inorder(self, root: Node) -> None:
+    def inorder(self, root: Node) -> Node:
         """Inorder Traversal: Left-Root-Right
         """
         return self.dfs(root)
 
-    def preorder(self, root: Node) -> None:
+    def preorder(self, root: Node) -> Node:
         """Preorder Traversal: Root-Left-Right
         Recursive way.
         """
         if not root:
             return
-        yield root # print(root.data, end=" ")
+        yield root  # print(root.data, end=" ")
         yield from self.preorder(root.left)
         yield from self.preorder(root.right)
 
@@ -185,7 +184,7 @@ class BinaryTree:
         while len(stack) > 0:
             # print the root node.
             node = stack.pop()
-            yield node # print(node.data, end=" ")
+            yield node  # print(node.data, end=" ")
             # push the right node first into stack so, it pop out later.
             if node.right is not None:
                 stack.append(node.right)
@@ -200,7 +199,7 @@ class BinaryTree:
             return
         yield from self.postorder(root.left)
         yield from self.postorder(root.right)
-        yield root # print(root.data, end=" ")
+        yield root  # print(root.data, end=" ")
 
     def postorder_iterative(self, root: Node) -> None:
         """Postorder Traversal: Left-Right-Root
@@ -216,10 +215,10 @@ class BinaryTree:
             temp = stack[-1].right
             if temp is None:
                 temp = stack.pop()
-                yield temp # print(temp.data, end=" ")
+                yield temp  # print(temp.data, end=" ")
                 while len(stack) > 0 and temp == stack[-1].right:
                     temp = stack.pop()
-                    yield temp # print(temp.data, end=" ")
+                    yield temp  # print(temp.data, end=" ")
             else:
                 curr = temp
 
@@ -501,7 +500,7 @@ class BinaryTree:
                 queue.append((node.right, x_axis+1, y_axis+1))
 
         # for k,v in OrderedDict(sorted(data.keys()))
-        for k,v in sorted(nodes).items():
+        for k, v in sorted(nodes).items():
             result.append(v)
         return result
 
@@ -511,7 +510,7 @@ class BinaryTree:
         result = []
         if root is None:
             return result
-        
+
         result_map = dict()
         queue = [(root, 0)]
         while len(queue) > 0:
@@ -525,10 +524,10 @@ class BinaryTree:
                 queue.append((node.right, x_axis+1))
 
         # for k,v in OrderedDict(sorted(data.keys()))
-        for k,v in sorted(result_map).items():
+        for k, v in sorted(result_map).items():
             result.append(v)
         return result
-    
+
     def bottomview(self, root: Node) -> List[int]:
         """Bottom View of Binary Tree
         """
@@ -536,12 +535,12 @@ class BinaryTree:
         if root is None:
             return result
         left_lst, right_lst = [], []
-        
+
         queue = [(root, 0)]
         while len(queue) > 0:
             temp = queue.pop(0)
             node, x_axis = temp[0], temp[1]
-            if x_axis>=0:
+            if x_axis >= 0:
                 if x_axis < len(right_lst):
                     right_lst[x_axis] = node.data
                 else:
@@ -551,7 +550,7 @@ class BinaryTree:
                     left_lst[(-1*x_axis)-1] = node.data
                 else:
                     left_lst.append(node.data)
-            #result_map[x_axis] = node.data # Overwrite value of map
+            # result_map[x_axis] = node.data # Overwrite value of map
             if node.left:
                 queue.append((node.left, x_axis-1))
             if node.right:
@@ -559,15 +558,16 @@ class BinaryTree:
 
         result = left_lst[::-1] + right_lst
         return result
-        
+
     def leftview(self, root: Node) -> List[int]:
+        """_summary_
+        """
         return []
-    
+
     def rightview(self, root: Node) -> List[int]:
+        """_summary_
+        """
         return []
-
-
-
 
     def printpath_iterative(self, root: Node, node: Node) -> List[int]:
         """Print Root to Node Path in Binary Tree
@@ -618,7 +618,6 @@ class BinaryTree:
         getpath(curr, result, node)
         return result
 
-
     # >>>>>> Binary Search Tree functions ftarts
     def insert(self, root: Node, node: Node) -> Node:
         """Insert element into binary tree.
@@ -629,11 +628,11 @@ class BinaryTree:
         if root.data < node.data:
             root.right = self.insert(root.right, node)
         elif root.data > node.data:
-            root.left = self.insert(root.left, node) 
+            root.left = self.insert(root.left, node)
         else:
             print("Element already present")
         return root
-    
+
     def find(self, root: Node, data: int) -> Node:
         """Find the node if it exist in the tree.
         """
@@ -641,12 +640,12 @@ class BinaryTree:
         while curr:
             if data < curr.data:
                 curr = curr.left
-            elif (data > curr.data):
+            elif data > curr.data:
                 curr = curr.right
             else:
                 return curr
         return None
-    
+
     def find_parent(self, root: Node, data: int) -> Node:
         """Find the node if it exist in the tree.
         """
@@ -657,7 +656,7 @@ class BinaryTree:
         if curr.left is not None and curr.right is not None:
             return None
         # Check for left value and right value. if match return current node.
-        if (curr.left and curr.left.data == data) or (curr,right and curr.right.data == data):
+        if (curr.left and curr.left.data == data) or (curr.right and curr.right.data == data):
             return curr
         # compare values to decide where to go left/right.
         if data < curr.data:
@@ -665,7 +664,6 @@ class BinaryTree:
         if data > curr.data:
             return self.find_parent(curr.right, data)
 
-    
     def successor(self, root: Node, data: int) -> Node:
         """Find the Successor node of the given node,
         the node with the smallest key greater than the key of the input node.
@@ -677,7 +675,7 @@ class BinaryTree:
         while node.left:
             node = node.left
         return node
- 
+
     def predecessor(self, root: Node, data: int) -> Node:
         """Find the Predecessor node of the given node,
         the maximum value in its left subtree.
@@ -689,14 +687,16 @@ class BinaryTree:
         while node.right:
             node = node.right
         return node
-    
+
     def delete(self, root: Node, data: int) -> Node:
+        """Delete Node from the BST.
+        """
         if root is None:
             return
-        
+
         node = self.find(root, data)
         parent = self.find_parent(root, data)
-        
+
         # if node has no child. Remove connection from parent node.
         if node.left is None and node.right is None:
             if parent is None:
@@ -709,7 +709,7 @@ class BinaryTree:
                     parent.right = None
                 del node
                 return root
-        
+
         # if node has only one child. connect parent node with child node.
         if node.left is None:
             if parent is None:
@@ -720,7 +720,6 @@ class BinaryTree:
                 parent.right = node.right
             del node
             return root
- 
         elif node.right is None:
             if parent is None:
                 return node.left
@@ -731,7 +730,8 @@ class BinaryTree:
             del node
             return root
 
-        # if node has two child. replace node with inorder predecessor/successor. and connect predecessor/successor's parent with its child
+        # if node has two child. replace node with inorder predecessor/successor.
+        # and connect predecessor/successor's parent with its child
         else:
             pred = self.predecessor(root, data)
             # if pred is not None:
@@ -740,13 +740,8 @@ class BinaryTree:
             parent.right = pred.left
             del pred
             return root
-    
+
     # <<<<<< Binary Search Tree functions ends
-    
-    
-    
-    
-    
     # def find(tree: BinaryTree, data: int) -> BinaryTree:
     #     curr = tree
     #     while curr:
@@ -772,4 +767,3 @@ class BinaryTree:
     #             parent.left = leaf
     #         else:
     #             parent.right = leaf
-
