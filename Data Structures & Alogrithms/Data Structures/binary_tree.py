@@ -12,7 +12,7 @@ https://gist.github.com/jtribble/e5bcfc16b82a2547c22fc39877e81217
 
 from dataclasses import dataclass
 from typing import List, Optional
-from collections import defaultdict, OrderedDict
+from collections import defaultdict  # , OrderedDict
 
 
 @dataclass
@@ -32,7 +32,7 @@ class BinaryTree:
     """
 
     def __init__(self) -> None:
-        self.root: Optional[Node] = None
+        self.root: Optional['Node'] = None
 
     def __str__(self) -> str:
         tree_str = f"{self.root.data}"
@@ -391,14 +391,14 @@ class BinaryTree:
         max_path_sum1(root)
         return maxpathsum
 
-    def is_identical(self, p: Node, q: Node) -> bool:
+    def is_identical(self, first: Node, second: Node) -> bool:
         """_summary_
         """
-        if not p or not q:
-            return p == q
-        return (p.data == q.data and
-                self.is_identical(p.left, q.left) and
-                self.is_identical(p.right, q.right))
+        if not first or not second:
+            return first == second
+        return (first.data == second.data and
+                self.is_identical(first.left, second.left) and
+                self.is_identical(first.right, second.right))
 
     def zig_zag_level_order(self, root: Node) -> List[List[int]]:
         """_summary_
@@ -500,8 +500,8 @@ class BinaryTree:
                 queue.append((node.right, x_axis+1, y_axis+1))
 
         # for k,v in OrderedDict(sorted(data.keys()))
-        for k, v in sorted(nodes).items():
-            result.append(v)
+        for val in sorted(nodes).values():
+            result.append(val)
         return result
 
     def topview(self, root: Node) -> List[int]:
@@ -524,8 +524,8 @@ class BinaryTree:
                 queue.append((node.right, x_axis+1))
 
         # for k,v in OrderedDict(sorted(data.keys()))
-        for k, v in sorted(result_map).items():
-            result.append(v)
+        for val in sorted(result_map).values():
+            result.append(val)
         return result
 
     def bottomview(self, root: Node) -> List[int]:
@@ -562,11 +562,17 @@ class BinaryTree:
     def leftview(self, root: Node) -> List[int]:
         """_summary_
         """
+        result = []
+        if root is None:
+            return result
         return []
 
     def rightview(self, root: Node) -> List[int]:
         """_summary_
         """
+        result = []
+        if root is None:
+            return result
         return []
 
     def printpath_iterative(self, root: Node, node: Node) -> List[int]:

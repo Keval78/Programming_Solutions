@@ -14,10 +14,14 @@ T = TypeVar("T")
 
 
 class StackOverflowError(BaseException):
+    """Raise exception on Stack Overflow.
+    """
     print("Stack Overflow...")
 
 
 class StackUnderflowError(BaseException):
+    """Raise exception on Stack Underflow.
+    """
     print("Stack Underflow...")
 
 
