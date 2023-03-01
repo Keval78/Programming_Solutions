@@ -9,7 +9,7 @@ https://github.com/TheAlgorithms/Python/blob/master/data_structures/binary_tree/
 https://gist.github.com/jtribble/e5bcfc16b82a2547c22fc39877e81217
 """
 
-
+import sys
 from dataclasses import dataclass
 from typing import List, Optional
 from collections import defaultdict  # , OrderedDict
@@ -642,10 +642,92 @@ class BinaryTree:
     def lca(self, root: Node, first: Node, second: Node) -> Node:
         """Return Lowest Common Ancestor(Parent) of both the ndes from tree.
         """
+        if root is None or first == root or second == root:
+            return root
+
+        left = self.lca(root.left, first, second)
+        right = self.lca(root.right, first, second)
+
+        if left is None:
+            return right
+        elif right is None:
+            return left
+        else:
+            return root
+
+    def max_width(self, root: Node) -> int:
+        """Return Lowest Common Ancestor(Parent) of both the ndes from tree.
+        """
+        # Base case
+        result = []
+        if root is None:
+            return 0
+
+        # Create empty queue for level order traversal
+        queue = [(root, 1)]
+        width = float('-inf')
+        while len(queue) > 0:
+            length = len(queue)
+            first, last = float('inf'), float('-inf')
+            for i in range(length):
+                temp = queue.pop(0)
+                node, node_number = temp[0], temp[1]
+                first = min(first, node_number)
+                last = max(last, node_number)
+                if node.left:
+                    queue.append((node.left, 2*(node_number-1)+1))
+                if node.right:
+                    queue.append((node.right, 2*(node_number-1)+2))
+            
+            width = max(width, last-first+1)
+        
+        return width
+
+    def child_sum(self, root: Node) -> None:
+        """ Convert BinaryTree into children sum property.
+        """
         if root is None:
             return None
+        child = 0
+        if root.left:
+            child += root.left.data
+        if root.right:
+            child += root.right.data
+        
+        if child >= root.data: root.data = child
+        else:
+            if root.left: root.left.data = root.data
+            if root.right: root.right.data = root.data
 
-        return None
+        self.child_sum(root.left)
+        self.child_sum(root.right)
+
+        total = 0
+        if root.left:
+            total += root.left.data
+        if root.right:
+            total += root.right.data
+        if root.left or root.right:
+            root.data = total
+
+    def get_nodes_at_k_distance(self, root: Node, target: Node, distance: int) -> List[Node]:
+        """
+        Retruns all the Nodes which are at the K-distance from the target node.
+        """
+        return []
+
+
+    def burn_time(self, root: Node, node: Node) -> int:
+        """
+        Minimum time to burn a Tree starting from a Leaf node.
+        """
+        
+        return 0
+
+
+
+
+
 
     # >>>>>> Binary Search Tree functions ftarts
 
