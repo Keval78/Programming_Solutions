@@ -624,7 +624,31 @@ class BinaryTree:
         getpath(curr, result, node)
         return result
 
+    def is_symmetric(self, root: Node) -> bool:
+        """Check tree is symmetric or not.
+        """
+        if root is None:
+            return True
+
+        def symmetric(left: Node, right: Node) -> bool:
+            if left is None or right is None:
+                return left == right
+            if left.data != right.data:
+                return False
+            return symmetric(left.left, right.right) and symmetric(left.right, right.left)
+
+        return symmetric(root.left, root.right)
+
+    def lca(self, root: Node, first: Node, second: Node) -> Node:
+        """Return Lowest Common Ancestor(Parent) of both the ndes from tree.
+        """
+        if root is None:
+            return None
+
+        return None
+
     # >>>>>> Binary Search Tree functions ftarts
+
     def insert(self, root: Node, node: Node) -> Node:
         """Insert element into binary tree.
             Returns the root node of the tree after inserting value.
@@ -748,28 +772,3 @@ class BinaryTree:
             return root
 
     # <<<<<< Binary Search Tree functions ends
-    # def find(tree: BinaryTree, data: int) -> BinaryTree:
-    #     curr = tree
-    #     while curr:
-    #         if data < curr.data:
-    #             if (curr.left == None):
-    #                 return curr
-    #             curr = curr.left
-    #         elif (data > curr.data):
-    #             if (curr.right == None):
-    #                 return curr
-    #             curr = curr.right
-    #         else:
-    #             return curr
-    #     return None
-
-    # def put(tree: BinaryTree, data: int) -> None:
-    #     leaf = BinaryTree(data)
-    #     if not tree:
-    #         tree = leaf
-    #     else:
-    #         parent = find(data)
-    #         if data < parent.data:
-    #             parent.left = leaf
-    #         else:
-    #             parent.right = leaf
