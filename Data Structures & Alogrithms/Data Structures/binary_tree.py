@@ -717,8 +717,7 @@ class BinaryTree:
 
     # ! CODE IS NOT DONE YET :(
     def get_nodes_at_k_distance(self, root: Node, target: Node, distance: int) -> List[Node]:
-        """
-        Retruns all the Nodes which are at the K-distance from the target node.
+        """Retruns all the Nodes which are at the K-distance from the target node.
         """
         if root is None:
             return []
@@ -726,8 +725,7 @@ class BinaryTree:
 
     # ! CODE IS NOT DONE YET :(
     def burn_time(self, root: Node, start: int) -> int:
-        """
-        Minimum time to burn a Tree starting from a Leaf node.
+        """Minimum time to burn a Tree starting from a Leaf node.
         Approach: Foreach node get 
             sum of 
                 (the depth till the presententing node)
@@ -741,6 +739,96 @@ class BinaryTree:
         right_h = self.burn_time(root.right, start)
 
         return 1 + max(left_h, right_h)
+
+    def construct_treefrom_pre_in(self, pre, in_):
+        """Construct a binary tree from the given inputs.
+        """
+        def construct_tree1(pre, in_, pre_start, pre_end, in_start, in_end, in_map):
+            if pre_start >  pre_end or in_start > in_end:
+                return None
+            
+            # Create root nodfe fot the subtree.
+            root = Node(pre[0])
+
+            # find the lcoation of the root node in the inorder traversal.
+            # divide tree into two subtree based on inorder trversal.
+            in_root = in_map[root.data]
+            
+            # number of elements in leftside of the root in inorder traversal
+            # will be same number of element in preorder traversal after first(root) element.
+            no_left = in_root-in_start
+            
+            root.left = construct_tree1(pre, in_, pre_start+1, pre_start+no_left, in_start, in_root-1, in_map)
+            root.right = construct_tree1(pre, in_, pre_start+no_left+1, pre_end, in_root+1, in_end, in_map)
+            
+            # return the root element of the binary tree.
+            return root
+        
+        in_map = defaultdict()
+        for i in range(len(in_)):
+            in_map[in_[i]] = i
+        root = construct_tree1(pre, in_, 0, len(pre)-1, 0, len(in_)-1, in_map)
+    
+    def construct_tree_from_post_in(self, post, in_):
+        """Construct a binary tree from the given inputs.
+        """
+        def construct_tree1(pre, in_, post_start, post_end, in_start, in_end, in_map):
+            if post_start >  post_end or in_start > in_end:
+                return None
+            
+            # Create root nodfe fot the subtree.
+            root = Node(post[-1])
+
+            # find the lcoation of the root node in the inorder traversal.
+            # divide tree into two subtree based on inorder trversal.
+            in_root = in_map[root.data]
+            
+            # number of elements in leftside of the root in inorder traversal
+            # will be same number of element in preorder traversal after first(root) element.
+            no_left = in_root-in_start
+            
+            root.left = construct_tree1(post, in_, post_start, post_start+no_left-1, in_start, in_root-1, in_map)
+            root.right = construct_tree1(post, in_, post_start+no_left, post_end-1, in_root+1, in_end, in_map)
+            
+            # return the root element of the binary tree.
+            return root
+        
+        in_map = defaultdict()
+        for i in range(len(in_)):
+            in_map[in_[i]] = i
+        root = construct_tree1(post, in_, 0, len(post)-1, 0, len(in_)-1, in_map)
+
+    # ! CODE IS NOT DONE YET :(
+    def morris_traversal(self, root: Node):
+        """The idea of Morris Traversal is based on Threaded Binary Tree. 
+        In this traversal, we first create links to Inorder successor and print the data using these links, 
+        and finally revert the changes to restore original tree.
+        Time Complexity : O(n)
+        Auxiliary Space: O(1)
+        """
+
+        return 
+    
+    # ! CODE IS NOT DONE YET :(
+    def flatten(self, root: Node):
+        """Flatten a binary tree.
+        """
+        prev = None
+        node = root
+        def flatten1(node: Node):
+            if node is None:
+                return
+            flatten1(node.right)
+            flatten1(node.left)
+
+            node.right = prev
+            node.left = None
+
+            prev = node
+        return
+
+        
+
 
     # >>>>>> Binary Search Tree functions ftarts
 
@@ -762,14 +850,9 @@ class BinaryTree:
         """Find the node if it exist in the tree.
         """
         curr = root
-        while curr:
-            if data < curr.data:
-                curr = curr.left
-            elif data > curr.data:
-                curr = curr.right
-            else:
-                return curr
-        return None
+        while curr is not None and curr.data != data:
+            curr = curr.left if data < curr.data else curr.right
+        return curr
 
     def find_parent(self, root: Node, data: int) -> Node:
         """Find the node if it exist in the tree.
@@ -789,6 +872,7 @@ class BinaryTree:
         if data > curr.data:
             return self.find_parent(curr.right, data)
 
+
     def successor(self, root: Node, data: int) -> Node:
         """Find the Successor node of the given node,
         the node with the smallest key greater than the key of the input node.
@@ -796,10 +880,39 @@ class BinaryTree:
         node = self.find(root, data)
         if node is None:
             return
+        
+        # if node has child available then search in subtree
         node = node.right
+        
+        if node is None:
+            # succ = self.find_parent(root, data)
+            succ = None
+            while(root):
+                if(root.data < data):
+                    root = root.right
+                elif(root.data > data):
+                    succ, root = root, root.left
+                else:
+                    break
+            return succ
+        
         while node.left:
             node = node.left
         return node
+
+    def ceil(self, root: Node, data: int) -> Node:
+        """the smallest integer greater than or equal to a given number. 
+        """
+        ceil = -1
+        while root:
+            if data > root.data:
+                root = root.right
+            else:
+                ceil = data
+                root = root.left
+                if root.data == data:
+                    return ceil
+        return ceil
 
     def predecessor(self, root: Node, data: int) -> Node:
         """Find the Predecessor node of the given node,
@@ -808,10 +921,38 @@ class BinaryTree:
         node = self.find(root, data)
         if node is None:
             return
+        
+        # if node has child available then search in subtree
         node = node.left
+
+        if node is None:
+            pred = None
+            while(root):
+                if(root.data < data):
+                    pred, root = root, root.right
+                elif(root.data > data):
+                    root = root.left
+                else:
+                    break
+            return pred
+        
         while node.right:
             node = node.right
         return node
+    
+    def floor(self, root: Node, data: int) -> Node:
+        """the greater integer lesser than or equal to a given number. 
+        """
+        floor = -1
+        while root:
+            if data > root.data:
+                floor = data
+                root = root.right
+                if root.data == data:
+                    return floor
+            else:
+                root = root.left  
+        return floor
 
     def delete(self, root: Node, data: int) -> Node:
         """Delete Node from the BST.
@@ -866,4 +1007,7 @@ class BinaryTree:
             del pred
             return root
 
+    # ! CODE IS NOT DONE YET :(
+    def construct_bst_from_pre(self, pre):
+        return
     # <<<<<< Binary Search Tree functions ends
