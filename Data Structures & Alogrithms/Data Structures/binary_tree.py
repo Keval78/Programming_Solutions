@@ -559,6 +559,7 @@ class BinaryTree:
         result = left_lst[::-1] + right_lst
         return result
 
+    # ! CODE IS NOT DONE YET :(
     def leftview(self, root: Node) -> List[int]:
         """_summary_
         """
@@ -567,6 +568,7 @@ class BinaryTree:
             return result
         return []
 
+    # ! CODE IS NOT DONE YET :(
     def rightview(self, root: Node) -> List[int]:
         """_summary_
         """
@@ -659,7 +661,6 @@ class BinaryTree:
         """Return Lowest Common Ancestor(Parent) of both the ndes from tree.
         """
         # Base case
-        result = []
         if root is None:
             return 0
 
@@ -669,7 +670,7 @@ class BinaryTree:
         while len(queue) > 0:
             length = len(queue)
             first, last = float('inf'), float('-inf')
-            for i in range(length):
+            for _ in range(length):
                 temp = queue.pop(0)
                 node, node_number = temp[0], temp[1]
                 first = min(first, node_number)
@@ -678,26 +679,30 @@ class BinaryTree:
                     queue.append((node.left, 2*(node_number-1)+1))
                 if node.right:
                     queue.append((node.right, 2*(node_number-1)+2))
-            
+
             width = max(width, last-first+1)
-        
+
         return width
 
+    # TODO: SEARCH FOR MORE EFFICIENT APPROACH.
     def child_sum(self, root: Node) -> None:
         """ Convert BinaryTree into children sum property.
         """
         if root is None:
-            return None
+            return
         child = 0
         if root.left:
             child += root.left.data
         if root.right:
             child += root.right.data
-        
-        if child >= root.data: root.data = child
+
+        if child >= root.data:
+            root.data = child
         else:
-            if root.left: root.left.data = root.data
-            if root.right: root.right.data = root.data
+            if root.left:
+                root.left.data = root.data
+            if root.right:
+                root.right.data = root.data
 
         self.child_sum(root.left)
         self.child_sum(root.right)
@@ -710,24 +715,32 @@ class BinaryTree:
         if root.left or root.right:
             root.data = total
 
+    # ! CODE IS NOT DONE YET :(
     def get_nodes_at_k_distance(self, root: Node, target: Node, distance: int) -> List[Node]:
         """
         Retruns all the Nodes which are at the K-distance from the target node.
         """
+        if root is None:
+            return []
         return []
 
-
-    def burn_time(self, root: Node, node: Node) -> int:
+    # ! CODE IS NOT DONE YET :(
+    def burn_time(self, root: Node, start: int) -> int:
         """
         Minimum time to burn a Tree starting from a Leaf node.
+        Approach: Foreach node get 
+            sum of 
+                (the depth till the presententing node)
+                    and 
+                (height of opposite side of the tree)
         """
-        
-        return 0
+        if root is None:
+            return 0
 
+        left_h = self.burn_time(root.left, start)
+        right_h = self.burn_time(root.right, start)
 
-
-
-
+        return 1 + max(left_h, right_h)
 
     # >>>>>> Binary Search Tree functions ftarts
 
