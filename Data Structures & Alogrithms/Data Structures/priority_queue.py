@@ -4,7 +4,10 @@ LinkedIn: https://www.linkedin.com/in/kevalpadsala78/
 Github: https://github.com/Keval78
 Leetcode: https://leetcode.com/Keval_78/
 
-Reference: https://github.com/TheAlgorithms/Python/blob/master/data_structures/queue/queue_on_list.py
+Reference: 
+https://github.com/TheAlgorithms/Python/blob/master/data_structures/queue/queue_on_list.py
+https://github.com/TheAlgorithms/Java/blob/master/src/main/java/com/thealgorithms/datastructures/queues/Queues.java
+
 """
 
 

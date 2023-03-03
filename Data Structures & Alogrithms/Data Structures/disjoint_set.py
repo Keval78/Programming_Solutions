@@ -6,7 +6,6 @@ Leetcode: https://leetcode.com/Keval_78/
 
 Reference:
 https://github.com/TheAlgorithms/Python/blob/master/data_structures/disjoint_set/disjoint_set.py
-https://www.algotree.org/algorithms/disjoint_set/
 """
 
 from typing import Optional, List
