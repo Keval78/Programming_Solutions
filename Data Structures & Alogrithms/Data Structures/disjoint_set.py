@@ -19,11 +19,14 @@ class Node:
     """
     data: int
     rank: int
-    parent: Optional['Node']
+    parent: Optional['Node'] = None
+    
+    def __post_init__(self):
+        self.parent = self
 
 
-class DiosjointSet:
-    """DiosjointSet Data Structure.
+class DisjointSet:
+    """DisjointSet Data Structure.
     """
     def __init__(self, sets: List[Node]) -> None:
         self.sets = sets
@@ -39,9 +42,9 @@ class DiosjointSet:
     def find_set(self, x: Node) -> Node:
         """Return the parent of x
         """
-        if x.parent is not None:
-            x = self.find_set(x.parent)
-        return x
+        if x != x.parent:
+            x.parent = find_set(x.parent)
+        return x.parent
     
     def union_set(self, x: Node, y: Node) -> None:
         """
