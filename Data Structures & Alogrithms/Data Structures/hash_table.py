@@ -8,9 +8,6 @@ Reference:
 https://github.com/TheAlgorithms/Python/blob/master/data_structures/hashing/hash_table.py
 """
 
-from .number_theory.prime_numbers import next_prime
-
-
 class HashTable:
     """
     Basic Hash Table example with open addressing and linear probing
@@ -19,12 +16,7 @@ class HashTable:
     2. Read how hashtable grow/shrink.
     """
 
-    def __init__(
-        self,
-        size_table: int,
-        charge_factor: int | None = None,
-        lim_charge: float | None = None,
-    ) -> None:
+    def __init__(self, size_table: int, charge_factor: int | None = None, lim_charge: float | None = None) -> None:
         self.size_table = size_table
         self.values = [None] * self.size_table
         self.lim_charge = 0.75 if lim_charge is None else lim_charge
@@ -36,9 +28,7 @@ class HashTable:
         return self._keys
 
     def balanced_factor(self):
-        return sum(1 for slot in self.values if slot is not None) / (
-            self.size_table * self.charge_factor
-        )
+        return sum(1 for slot in self.values if slot is not None) / (self.size_table * self.charge_factor)
 
     def hash_function(self, key):
         return key % self.size_table
@@ -74,7 +64,7 @@ class HashTable:
 
     def rehashing(self):
         survivor_values = [value for value in self.values if value is not None]
-        self.size_table = next_prime(self.size_table, factor=2)
+        self.size_table = self.next_prime(self.size_table, factor=2)
         self._keys.clear()
         self.values = [None] * self.size_table  # hell's pointers D: don't DRY ;/
         for value in survivor_values:
@@ -96,3 +86,27 @@ class HashTable:
             else:
                 self.rehashing()
                 self.insert_data(data)
+
+
+import math
+def is_prime(number: int) -> bool:
+    # precondition
+    assert isinstance(number, int) and (number >= 0), "'number' must been an int and positive"
+
+    if 1 < number < 4:
+        return True
+    elif number < 2 or not number % 2:
+        return False
+    odd_numbers = range(3, int(math.sqrt(number) + 1), 2)
+    return not any(not number % i for i in odd_numbers)
+    
+def next_prime(self, value, factor=1, **kwargs):
+    value = factor * value
+    first_value_val = value
+
+    while not is_prime(value):
+        value += 1 if not ("desc" in kwargs and kwargs["desc"] is True) else -1
+
+    if value == first_value_val:
+        return next_prime(value + 1, **kwargs)
+    return value
