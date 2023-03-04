@@ -718,6 +718,20 @@ class BinaryTree:
     # ! CODE IS NOT DONE YET :(
     def get_nodes_at_k_distance(self, root: Node, target: Node, distance: int) -> List[Node]:
         """Retruns all the Nodes which are at the K-distance from the target node.
+        Approach 1:
+            Find Node to root path.
+            from node get the nodes which are k distance down.
+            from the parent node get the nodes which are (k-1) distance down and not in path.
+            do the same for other nodes in the path.
+        Approach 2:
+            Use BFS create parent link for each node.
+            Move to Left, Right and Parent.
+            Use Visited Hash for duplicate paths.
+            Count distance at each point and return nodes.
+        Approach 3: (OPTIMIZED)
+            Use blocking node on retunrs way if path.
+            it will save space.
+            same as 1.
         """
         if root is None:
             return []
@@ -725,7 +739,7 @@ class BinaryTree:
 
     # ! CODE IS NOT DONE YET :(
     def burn_time(self, root: Node, start: int) -> int:
-        """Minimum time to burn a Tree starting from a Leaf node.
+        """Minimum time to burn a Tree starting from a node.
         Approach: Foreach node get 
             sum of 
                 (the depth till the presententing node)
