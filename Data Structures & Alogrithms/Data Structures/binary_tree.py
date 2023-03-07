@@ -758,59 +758,64 @@ class BinaryTree:
         """Construct a binary tree from the given inputs.
         """
         def construct_tree1(pre, in_, pre_start, pre_end, in_start, in_end, in_map):
-            if pre_start >  pre_end or in_start > in_end:
+            if pre_start > pre_end or in_start > in_end:
                 return None
-            
+
             # Create root nodfe fot the subtree.
             root = Node(pre[0])
 
             # find the lcoation of the root node in the inorder traversal.
             # divide tree into two subtree based on inorder trversal.
             in_root = in_map[root.data]
-            
+
             # number of elements in leftside of the root in inorder traversal
             # will be same number of element in preorder traversal after first(root) element.
             no_left = in_root-in_start
-            
-            root.left = construct_tree1(pre, in_, pre_start+1, pre_start+no_left, in_start, in_root-1, in_map)
-            root.right = construct_tree1(pre, in_, pre_start+no_left+1, pre_end, in_root+1, in_end, in_map)
-            
+
+            root.left = construct_tree1(
+                pre, in_, pre_start+1, pre_start+no_left, in_start, in_root-1, in_map)
+            root.right = construct_tree1(
+                pre, in_, pre_start+no_left+1, pre_end, in_root+1, in_end, in_map)
+
             # return the root element of the binary tree.
             return root
-        
+
         in_map = defaultdict()
         for i in range(len(in_)):
             in_map[in_[i]] = i
         root = construct_tree1(pre, in_, 0, len(pre)-1, 0, len(in_)-1, in_map)
-    
+
     def construct_tree_from_post_in(self, post, in_):
         """Construct a binary tree from the given inputs.
         """
         def construct_tree1(pre, in_, post_start, post_end, in_start, in_end, in_map):
-            if post_start >  post_end or in_start > in_end:
+            if post_start > post_end or in_start > in_end:
                 return None
-            
+
             # Create root nodfe fot the subtree.
             root = Node(post[-1])
 
             # find the lcoation of the root node in the inorder traversal.
             # divide tree into two subtree based on inorder trversal.
             in_root = in_map[root.data]
-            
+
             # number of elements in leftside of the root in inorder traversal
             # will be same number of element in preorder traversal after first(root) element.
             no_left = in_root-in_start
-            
-            root.left = construct_tree1(post, in_, post_start, post_start+no_left-1, in_start, in_root-1, in_map)
-            root.right = construct_tree1(post, in_, post_start+no_left, post_end-1, in_root+1, in_end, in_map)
-            
+
+            root.left = construct_tree1(
+                post, in_, post_start, post_start+no_left-1, in_start, in_root-1, in_map)
+            root.right = construct_tree1(
+                post, in_, post_start+no_left, post_end-1, in_root+1, in_end, in_map)
+
             # return the root element of the binary tree.
             return root
-        
+
         in_map = defaultdict()
         for i in range(len(in_)):
             in_map[in_[i]] = i
-        root = construct_tree1(post, in_, 0, len(post)-1, 0, len(in_)-1, in_map)
+        root = construct_tree1(post, in_, 0, len(
+            post)-1, 0, len(in_)-1, in_map)
 
     # ! CODE IS NOT DONE YET :(
     def morris_traversal(self, root: Node):
@@ -821,14 +826,15 @@ class BinaryTree:
         Auxiliary Space: O(1)
         """
 
-        return 
-    
+        return
+
     # ! CODE IS NOT DONE YET :(
     def flatten(self, root: Node):
         """Flatten a binary tree.
         """
         prev = None
         node = root
+
         def flatten1(node: Node):
             if node is None:
                 return
@@ -840,9 +846,6 @@ class BinaryTree:
 
             prev = node
         return
-
-        
-
 
     # >>>>>> Binary Search Tree functions ftarts
 
@@ -886,7 +889,6 @@ class BinaryTree:
         if data > curr.data:
             return self.find_parent(curr.right, data)
 
-
     def successor(self, root: Node, data: int) -> Node:
         """Find the Successor node of the given node,
         the node with the smallest key greater than the key of the input node.
@@ -894,22 +896,22 @@ class BinaryTree:
         node = self.find(root, data)
         if node is None:
             return
-        
+
         # if node has child available then search in subtree
         node = node.right
-        
+
         if node is None:
             # succ = self.find_parent(root, data)
             succ = None
-            while(root):
-                if(root.data < data):
+            while (root):
+                if (root.data < data):
                     root = root.right
-                elif(root.data > data):
+                elif (root.data > data):
                     succ, root = root, root.left
                 else:
                     break
             return succ
-        
+
         while node.left:
             node = node.left
         return node
@@ -935,25 +937,25 @@ class BinaryTree:
         node = self.find(root, data)
         if node is None:
             return
-        
+
         # if node has child available then search in subtree
         node = node.left
 
         if node is None:
             pred = None
-            while(root):
-                if(root.data < data):
+            while (root):
+                if (root.data < data):
                     pred, root = root, root.right
-                elif(root.data > data):
+                elif (root.data > data):
                     root = root.left
                 else:
                     break
             return pred
-        
+
         while node.right:
             node = node.right
         return node
-    
+
     def floor(self, root: Node, data: int) -> Node:
         """the greater integer lesser than or equal to a given number. 
         """
@@ -965,60 +967,51 @@ class BinaryTree:
                 if root.data == data:
                     return floor
             else:
-                root = root.left  
+                root = root.left
         return floor
 
     def delete(self, root: Node, data: int) -> Node:
         """Delete Node from the BST.
         """
         if root is None:
-            return
+            return root
 
-        node = self.find(root, data)
-        parent = self.find_parent(root, data)
-
-        # if node has no child. Remove connection from parent node.
-        if node.left is None and node.right is None:
-            if parent is None:
-                del node
+        if root.data == data:
+            # if node has no child. Remove connection from parent node.
+            if root.left is None and root.right is None:
+                del root
                 return None
+
+            # if node has only one child. connect parent node with child node.
+            if root.left is None:
+                temp = root.right
+                del root
+                return temp
+            elif root.right is None:
+                temp = root.left
+                del root
+                return temp
+
+            # if node has two child. replace node with inorder predecessor/successor.
             else:
-                if parent.left is not None and node.data == parent.left.data:
-                    parent.left = None
-                else:
-                    parent.right = None
-                del node
+                # right Min value.
+                r_min = root.right
+                while root.left is not None:
+                    r_min = root.left
+                # left Max value.
+                # l_max = root.left
+                # while root.right is not None:
+                #     l_max = root.right
+                root.data = r_min.data
+                root.right = self.delete(root.right, r_min.data)
                 return root
 
-        # if node has only one child. connect parent node with child node.
-        if node.left is None:
-            if parent is None:
-                return node.right
-            if parent.left is not None and node.data == parent.left.data:
-                parent.left = node.right
-            else:
-                parent.right = node.right
-            del node
-            return root
-        elif node.right is None:
-            if parent is None:
-                return node.left
-            if parent.right is not None and node.data == parent.right.data:
-                parent.right = node.left
-            else:
-                parent.left = node.left
-            del node
+        elif root.data < data:
+            root.left = self.delete(root.left, data)
             return root
 
-        # if node has two child. replace node with inorder predecessor/successor.
-        # and connect predecessor/successor's parent with its child
-        else:
-            pred = self.predecessor(root, data)
-            # if pred is not None:
-            parent = self.find_parent(root, pred.data)
-            node.data = pred.data
-            parent.right = pred.left
-            del pred
+        else:  # root.data > data
+            root.right = self.delete(root.right, data)
             return root
 
     # ! CODE IS NOT DONE YET :(

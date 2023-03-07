@@ -8,6 +8,9 @@ Reference:
 https://github.com/TheAlgorithms/Python/blob/master/data_structures/binary_tree/avl_tree.py
 https://gist.github.com/jtribble/e5bcfc16b82a2547c22fc39877e81217
 """
+from dataclasses import dataclass
+from typing import Optional
+
 
 @dataclass
 class Node:
@@ -19,6 +22,7 @@ class Node:
 
 # Create node
 # node = Node(val, None, None)
+
 
 class AVLTree:
     """AVLTree data structure.
