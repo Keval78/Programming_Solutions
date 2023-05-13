@@ -136,8 +136,8 @@ class LinkedList(Generic[T]):
     def detect_loop(self) -> bool:
         """Detect loop in a LinkedList.
             1. Detect loop in a linked list using Hashing:
-            2. Detect loop in a linked list by Modification In Node Structure: (implemented)
-            3. Detect loop in a linked list using Floyd’s Cycle-Finding Algorithm:
+            2. Detect loop in a linked list by Modification In Node Structure:
+            3. Detect loop in a linked list using Floyd’s Cycle-Finding Algorithm: (implemented)
             4. Detect loop in a linked list by Storing length:
         """
         if self.head is None:
