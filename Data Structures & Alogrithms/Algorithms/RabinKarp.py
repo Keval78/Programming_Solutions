@@ -88,9 +88,8 @@ if __name__ == "__main__":
     # Modulus to hash a string
     modulus = 1000003
 
-    # Find minimum number of coins that make a given value.
     print("Testing...   Rabin-Karp")
-    rabin_karp()
+    test_rabin_karp()
 
 
 
