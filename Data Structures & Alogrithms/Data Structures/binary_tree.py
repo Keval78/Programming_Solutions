@@ -9,7 +9,7 @@ https://github.com/TheAlgorithms/Python/blob/master/data_structures/binary_tree/
 https://gist.github.com/jtribble/e5bcfc16b82a2547c22fc39877e81217
 """
 
-import sys
+# import sys
 from dataclasses import dataclass
 from typing import List, Optional
 from collections import defaultdict  # , OrderedDict
@@ -485,7 +485,7 @@ class BinaryTree:
         if root is None:
             return result
 
-        nodes = defaultdict(dict)
+        nodes = defaultdict()
         # Create empty queue for level order traversal
         queue = [(root, 0, 0)]
 
@@ -781,14 +781,15 @@ class BinaryTree:
             return root
 
         in_map = defaultdict()
-        for i in range(len(in_)):
-            in_map[in_[i]] = i
+        for ind, node in enumerate(in_):
+            in_map[node] = ind
         root = construct_tree1(pre, in_, 0, len(pre)-1, 0, len(in_)-1, in_map)
+        return root
 
-    def construct_tree_from_post_in(self, post, in_):
+    def construct_tree_from_post_in(self, post, in_) -> Node:
         """Construct a binary tree from the given inputs.
         """
-        def construct_tree1(pre, in_, post_start, post_end, in_start, in_end, in_map):
+        def construct_tree1(post, in_, post_start, post_end, in_start, in_end, in_map):
             if post_start > post_end or in_start > in_end:
                 return None
 
@@ -812,10 +813,11 @@ class BinaryTree:
             return root
 
         in_map = defaultdict()
-        for i in range(len(in_)):
-            in_map[in_[i]] = i
+        for ind, node in enumerate(in_):
+            in_map[node] = ind
         root = construct_tree1(post, in_, 0, len(
             post)-1, 0, len(in_)-1, in_map)
+        return root
 
     # ! CODE IS NOT DONE YET :(
     def morris_traversal(self, root: Node):
@@ -825,7 +827,6 @@ class BinaryTree:
         Time Complexity : O(n)
         Auxiliary Space: O(1)
         """
-
         return
 
     # ! CODE IS NOT DONE YET :(
@@ -845,7 +846,7 @@ class BinaryTree:
             node.left = None
 
             prev = node
-        return
+        return root
 
     # >>>>>> Binary Search Tree functions ftarts
 
