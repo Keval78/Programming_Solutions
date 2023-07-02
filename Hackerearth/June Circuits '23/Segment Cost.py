@@ -30,23 +30,33 @@ def main():
     arr = li()
     x, y = mi()
 
-    prefix_sum = [i for i in range(n+1)]
-    prefix_xor = [i for i in range(n+1)]
+    ps = [0]*(n+1) # Prefix Sum
+    px = [0]*(n+1) # Prefix Xor
 
     for i in range(n):
-        prefix_sum[i+1] = prefix_sum[i] + arr[i]
-        prefix_xor[i+1] = prefix_xor[i] ^ arr[i]
+        ps[i+1] = ps[i] + arr[i]
+        px[i+1] = px[i] ^ arr[i]
 
-    print(prefix_sum)
-    print(prefix_xor)
-    print([0]+arr)
-    print([i for i in range(n+1)])
-    # for i in range(x, y+1):
-    #     val = (prefix_sum[i]-prefix_sum[x-1]) - (prefix_xor[i]^prefix_xor[x-1])
-    #     print(prefix_sum[i]-prefix_sum[x-1], prefix_xor[i]^prefix_xor[x-1])
-    #     print("s", val)
-
-    ans = (prefix_sum[y]-prefix_sum[x-1]) - (prefix_xor[y] ^ prefix_xor[x-1])
+    max_cost = ps[y]-ps[x-1]-(px[y]^px[x-1])
+    min_range = y-x+1
+    left, right = x, y
+    for i in range(x, y+1):
+        curr = ps[y]-ps[i-1]-(px[y]^px[i-1])
+        if curr <  max_cost: break
+        l, r, ind = i, y, -1
+        while(l <= r):
+            mid = (l+r)//2
+            curr = ps[mid]-ps[i-1]-(px[mid]^px[i-1])
+            if curr == max_cost: # Reduce the size till current cost stays max.
+                ind, r = mid, mid-1
+            else:
+                l = mid+1
+                
+        if ind!=-1 and ind-i+1<min_range:
+            min_range = ind-i+1
+            left, right = i, ind
+        
+    print(left, right)
 
 
 # region fastio
