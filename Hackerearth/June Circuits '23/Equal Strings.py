@@ -1,5 +1,5 @@
 '''
-###### * User Profile : Keval_78 
+###### * User Profile : Keval_78
 LinkedIn: https://www.linkedin.com/in/kevalpadsala78/
 Github: https://github.com/Keval78
 Leetcode: https://leetcode.com/Keval_78/
@@ -14,22 +14,31 @@ def li(ss=" "): return list(mi(ss))
 
 
 for _ in range(ii()):
-    n, arr = ii(), li()
-    def bit_count(x): return bin(x).count("1")
-
-    count_zero = 0
-    ans = 0
-    parity_flag = "EVEN"
-    prev_parity = (0, 0)
+    n, x = mi()
+    # s, t = msi()
+    s, t = si(), si()
+    mismatches = []
     for i in range(n):
-        if bit_count(arr[i]) % 2 == 0:  # Number has even number of set bits.
-            count_zero += count_zero + 1
-        else:
-            ans += count_zero + 1
-            if ans != 0:
-                ans += count_zero
-            count_zero = 0
+        if s[i] != t[i]:
+            mismatches.append(i)
 
-            if parity_flag == "EVEN":
-                prev_parity[1] + 1
-    print(ans)
+    if len(mismatches) % 2:
+        print("-1")
+    else:
+        m = len(mismatches)
+        dp = [[-1 for j in range(n+1)] for i in range(n+1)]
+        # print(m, n)
+        # base case
+        for j in range(n):
+            dp[m][j] = 0 if j == 0 else float('inf')
+        for i in range(m-1, -1, -1):
+            for j in range(m, -1, -1):
+                dp[i][j] = dp[i+1][j]+x
+                if i+1 < m:
+                    dp[i][j] = dp[i][j] = min(
+                        dp[i][j], dp[i+2][j] + min(x, mismatches[i+1]-mismatches[i]))
+                if j > 0:
+                    dp[i][j] = min(dp[i][j], dp[i+1][j-1])
+        for i in range(n):
+            print(dp[i])
+        # print(dp[0][0])
