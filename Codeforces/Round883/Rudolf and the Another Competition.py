@@ -28,5 +28,33 @@ MOD, MOD2, INF = 10 ** 9 + 7, 998244353, float('inf')
 
 
 for _ in range(ii()):
-    board = [si() for i in range(3)]
-    ans = "DRAW"
+    n, m, h = mi()
+    arr = [li() for i in range(n)]
+    #print(arr)
+
+    # sort every rows.
+    for i in range(n):
+        arr[i].sort()
+    
+    score = [(0,0,i+1) for i in range(n)]
+    penalty = [[0 for i in range(m)] for j in range(n)]
+
+    for i in range(n):
+        for j in range(m):
+            if j==0:
+                penalty[i][j] = arr[i][j]
+            else:
+                arr[i][j] += arr[i][j-1]
+                penalty[i][j] = arr[i][j] + penalty[i][j-1]
+            if arr[i][j] <= h:
+                score[i] = (-j-1, penalty[i][j], i+1)
+    # print(arr)
+    # print(penalty)
+    # print(score)
+    score.sort()
+    #print(score)
+    
+    for i in range(n):
+        if score[i][2] == 1:
+            print(i+1)
+            break
