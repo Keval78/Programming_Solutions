@@ -24,32 +24,37 @@ def li(ss=" "): return list(mi(ss))
 
 
 sys.setrecursionlimit(10 ** 5)
-MOD, MOD2, INF = 10 ** 9 + 7, 998244353, float('inf')
-
 
 for _ in range(ii()):
-    n, m, h = mi()
-    arr = [li() for i in range(n)]
+    n = ii()
+    arr = li()
     # print(arr)
+    left = [-1 for i in range(n)]
+    right = [-1 for i in range(n)]
+    preq, sufq = deque(), deque()
+    preq.append((-1, -1))
+    sufq.append((-1, -1))
 
-    # sort every rows.
-    for i in range(n):
-        arr[i].sort()
+    for i in range(1, n-1):
+        if arr[i-1] < arr[i]:
+            preq.append((arr[i-1], i-1))
+        else:
+            while preq[-1][0] >= arr[i]:
+                preq.pop()
+        left[i] = preq[-1][1]
 
-    score = [(0, 0) for i in range(n)]
-    penalty = [[0 for i in range(m)] for j in range(n)]
+        if arr[n-i] < arr[n-i-1]:
+            sufq.append((arr[n-i], n-i))
+        else:
+            while sufq[-1][0] >= arr[n-i-1]:
+                sufq.pop()
+        right[n-i-1] = sufq[-1][1]
 
-    for i in range(n):
-        for j in range(m):
-            if j == 0:
-                penalty[i][j] = arr[i][j]
-            else:
-                arr[i][j] += arr[i][j-1]
-                penalty[i][j] = arr[i][j] + penalty[i][j-1]
-            if arr[i][j] <= h:
-                score[i] = (j+1, penalty[i][j])
-    ans = 0
-    for i in range(n):
-        if score[i][0] > score[0][0] or (score[i][0] == score[0][0] and score[i][1] < score[0][1]):
-            ans += 1
-    print(ans + 1)
+    # print(left)
+    # print(right)
+    for i in range(n-1):
+        if left[i] == -1 or right[i] == -1:
+            print(-1, end=" ")
+        else:
+            print(right[i]-left[i]-2, end=" ")
+    print(-1)

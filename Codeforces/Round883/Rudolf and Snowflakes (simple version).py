@@ -25,8 +25,47 @@ def li(ss=" "): return list(mi(ss))
 
 sys.setrecursionlimit(10 ** 5)
 MOD, MOD2, INF = 10 ** 9 + 7, 998244353, float('inf')
+MAX = 10 ** 6
+
+
+def binpow(a: int, b: int) -> int:
+    res = 1
+    while (b > 0):
+        if (b & 1) == 1:
+            res = res*a
+        a = a*a
+        b >>= 1
+    return res
+
+
+def array(k, n):
+    return (binpow(k, n)-1)//(k-1)
+
+
+def find_case(val):
+    k = 2
+    while True:
+        temp = array(k, 3)
+        if temp > val:
+            break
+        # arr.append([temp])
+        if val == temp:
+            return True
+        n = 4
+        while True:
+            temp = array(k, n)
+            if temp > val:
+                break
+            if val == temp:
+                return True
+            n += 1
+        k += 1
+    return False
 
 
 for _ in range(ii()):
-    n = ii()
-    print("YES/NO")
+    val = ii()
+    if find_case(val):
+        print("YES")
+    else:
+        print("NO")
