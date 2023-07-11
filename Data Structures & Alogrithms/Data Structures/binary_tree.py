@@ -819,36 +819,93 @@ class BinaryTree:
             post)-1, 0, len(in_)-1, in_map)
         return root
 
-    # ! CODE IS NOT DONE YET :(
-    def morris_traversal(self, root: Node):
+    def inorder_morris_traversal(self, root: Node) -> Node:
         """The idea of Morris Traversal is based on Threaded Binary Tree. 
         In this traversal, we first create links to Inorder successor and print the data using these links, 
         and finally revert the changes to restore original tree.
         Time Complexity : O(n)
         Auxiliary Space: O(1)
         """
-        return
+        curr = root
+        while curr is not None:
+            if curr.left is None:
+                yield curr
+                # inorder_list.append(curr.val)
+                curr = curr.right
+            else:
+                prev = curr.left
+                while prev.right is not None and prev.right != curr:
+                    prev = prev.right
+                if prev.right is None:
+                    prev.right = curr
+                    curr = curr.left
+                else:
+                    prev.right = None
+                    yield curr
+                    # inorder_list.append(curr.val)
+                    curr = curr.right
+
+    def preorder_morris_traversal(self, root: Node) -> Node:
+        """Morris Traversal Preorder.
+        """
+        curr = root
+        while curr is not None:
+            yield curr
+            if curr.left is None:
+                curr = curr.right
+            else:
+                prev = curr.left
+                while prev.right is not None and prev.right != curr:
+                    prev = prev.right
+                if prev.right is None:
+                    prev.right = curr
+                    curr = curr.left
+                else:
+                    prev.right = None
+                    curr = curr.right
 
     # ! CODE IS NOT DONE YET :(
     def flatten(self, root: Node):
         """Flatten a binary tree.
         """
-        prev = None
-        node = root
+        # def flattenTree(node: Node):
+        #     """
+        #     Flatten Tree
+        #     """
+        #     if node is None:
+        #         return None
+        #     if not node.left and not node.right:
+        #         return node
 
-        def flatten1(node: Node):
-            if node is None:
-                return
-            flatten1(node.right)
-            flatten1(node.left)
+        #     leftTail = flattenTree(node.left)
+        #     rightTail = flattenTree(node.right)
 
-            node.right = prev
-            node.left = None
+        #     if leftTail:
+        #         leftTail.right = node.right
+        #         node.right = node.left
+        #         node.left = None
 
-            prev = node
+        #     return rightTail if rightTail else leftTail
+        # return flattenTree(root)
+
+        # Morris Traversal
+        if not root:
+            return None
+        curr = root
+        while curr:
+            if curr.left:
+                # Find the rightmost node
+                rightmost = curr.left
+                while rightmost.right:
+                    rightmost = rightmost.right
+                # rewire the connections
+                rightmost.right = curr.right
+                curr.right = curr.left
+                curr.left = None
+            curr = curr.right
         return root
 
-    # >>>>>> Binary Search Tree functions ftarts
+        # >>>>>> Binary Search Tree functions ftarts
 
     def insert(self, root: Node, node: Node) -> Node:
         """Insert element into binary tree.
