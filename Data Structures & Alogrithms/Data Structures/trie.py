@@ -17,17 +17,19 @@ longest word)) lookup time making it an optimal approach when space is not an is
 """
 
 # import sys
+
+
+
+
 from dataclasses import dataclass, field
 from typing import List, Optional
 from collections import defaultdict  # , OrderedDict
-
-
 @dataclass
 class TrieNode:
     """Dataclass represing node of the trie.
     """
     is_leaf: bool = False
-    children : 'TrieNode' = field(default_factory=lambda: defaultdict(TrieNode))
+    children: 'TrieNode' = field(default_factory=lambda: defaultdict(TrieNode))
 
 # Create node
 # node = Node(val, None, None)
@@ -36,9 +38,10 @@ class TrieNode:
 class Trie:
     """Trie/PrefixTree data structure.
     """
+
     def __init__(self) -> None:
         self.root: Optional['TrieNode'] = TrieNode()
-    
+
     def insert(self, word: str) -> None:
         """Inserts a word into the Trie
         :param word: word to be inserted
@@ -50,7 +53,7 @@ class Trie:
                 curr.children[char] = TrieNode()
             curr = curr.children[char]
         curr.is_leaf = True
-    
+
     def insert_many(self, words: List[str]) -> None:
         """Inserts a list of words into the Trie
         :param words: list of string words
@@ -58,7 +61,7 @@ class Trie:
         """
         for word in words:
             self.insert(word)
-    
+
     def find(self, word: str) -> bool:
         """Tries to find word in a Trie
         :param word: word to look for
@@ -70,7 +73,7 @@ class Trie:
                 return False
             curr = curr.children[char]
         return curr.is_leaf
-    
+
     def delete(self, word: str) -> None:
         """Deletes a word in a Trie
         :param word: word to delete
@@ -97,7 +100,7 @@ class Trie:
             return delete_curr
 
         _delete(self.root, word, 0)
-    
+
     def print_words(self, node: TrieNode, word: str = "") -> None:
         """Prints all the words in a Trie
         :param node: root node of Trie
@@ -109,14 +112,17 @@ class Trie:
 
         for key, value in node.children.items():
             self.print_words(value, word + key)
-        
-        
-    
+
     def __str__(self) -> str:
+        """Overwrite string function
+        """
         self.print_words(self.root)
         print()
-    
+
+
 def test_trie() -> bool:
+    """test Trie
+    """
     words = "banana bananas bandana band apple all beast".split()
     trie = Trie()
     trie.insert_many(words)
@@ -131,7 +137,5 @@ def test_trie() -> bool:
     print()
 
 
-
 if __name__ == "__main__":
     test_trie()
-    
