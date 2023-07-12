@@ -12,7 +12,7 @@ https://github.com/TheAlgorithms/Python/blob/master/graphs/basic_graphs.py
 # import sys
 from dataclasses import dataclass, field
 from typing import Set, Dict, List, Optional
-# from collections import defaultdict
+from collections import deque#, defaultdict
 
 
 @dataclass
@@ -135,6 +135,18 @@ class Graph:
                     break
             else:
                 stack.pop()
+    
+    def bfs(self, frm: int) -> Vertex:
+        """BFS traversal of Graph.
+        """
+        visited, que = {frm}, deque([frm])
+        yield frm
+        while que:
+            for vertex in self.get_vertex(que.popleft()).get_connections():
+                if vertex.val not in visited:
+                    visited.add(vertex.val)
+                    que.append(vertex.val)
+                    yield vertex.val
 
 
 if __name__ == '__main__':
@@ -157,4 +169,7 @@ if __name__ == '__main__':
         print('g.vert_dict[%s]=%s' % (v.get_id(), g.vertices[v.get_id()]))
     
     for vertex in g.dfs('a', set()):
+        print(vertex)
+    
+    for vertex in g.bfs('a'):
         print(vertex)
