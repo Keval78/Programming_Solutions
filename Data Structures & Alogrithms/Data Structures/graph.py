@@ -12,7 +12,7 @@ https://github.com/TheAlgorithms/Python/blob/master/graphs/basic_graphs.py
 # import sys
 from dataclasses import dataclass, field
 from typing import Set, Dict, List, Optional
-from collections import deque#, defaultdict
+from collections import deque  # , defaultdict
 
 
 @dataclass
@@ -41,7 +41,6 @@ class Vertex:
             neighbor.add_neighbor(self, weight, False)
 
     # def remove_neighbor(self, vertex: int) -> None:
-
 
     def get_connections(self) -> List[int]:
         """Returns all the neighbour of the Vertex.
@@ -88,7 +87,7 @@ class Graph:
         """
         return self.vertices[val] if val in self.vertices else None
 
-    def add_undirected_edge(self, frm: int, to: int, weight: int=0) -> None:
+    def add_undirected_edge(self, frm: int, to: int, weight: int = 0) -> None:
         """Add edge to Undirected Edge from->to with given weight.
         """
         self.add_vertex(frm)
@@ -108,13 +107,12 @@ class Graph:
         """List of all vertices for the given Graph.
         """
         return self.vertices.keys()
-    
 
     def dfs(self, frm, visited: Set[int]) -> Vertex:
         """Recusrsive DFS traversal of Graph.
         """
         visited.add(frm)
-        #print(frm, visited)
+        # print(frm, visited)
         yield frm
         for vertex in self.get_vertex(frm).get_connections():
             if vertex.val not in visited:
@@ -130,12 +128,12 @@ class Graph:
                 if vertex.val not in visited:
                     stack.append(vertex.val)
                     visited.add(vertex.val)
-                    #print(vertex.val, stack)
+                    # print(vertex.val, stack)
                     yield vertex.val
                     break
             else:
                 stack.pop()
-    
+
     def bfs(self, frm: int) -> Vertex:
         """BFS traversal of Graph.
         """
@@ -167,9 +165,9 @@ if __name__ == '__main__':
 
     for v in g:
         print('g.vert_dict[%s]=%s' % (v.get_id(), g.vertices[v.get_id()]))
-    
+
     for vertex in g.dfs('a', set()):
         print(vertex)
-    
+
     for vertex in g.bfs('a'):
         print(vertex)
