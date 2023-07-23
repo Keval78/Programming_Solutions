@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Solution:
     def maxArrayValue(self, nums: List[int]) -> int:
         local_max = nums[-1]
