@@ -118,6 +118,7 @@ class Trie:
         """
         self.print_words(self.root)
         print()
+        return ''
 
 
 def test_trie() -> bool:
