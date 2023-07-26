@@ -27,7 +27,16 @@ sys.setrecursionlimit(10 ** 5)
 MOD, MOD2, INF = 10 ** 9 + 7, 998244353, float('inf')
 MAX = 10**5+1
 
+s = si()
+n = len(s)
+cnt = [0 for i in range(n)]
+for i in range(1,n):
+    if s[i] == s[i-1]:
+        cnt[i] = 1
+    cnt[i] += cnt[i-1]
 
 for _ in range(ii()):
-    angle = ii()
-    print("YES") if 360 % (180-angle) == 0 else print("NO")
+    l, r = mi()
+    print(cnt[r-1]-cnt[l-1])
+
+    
