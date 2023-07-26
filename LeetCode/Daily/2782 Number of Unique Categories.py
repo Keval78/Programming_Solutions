@@ -2,6 +2,10 @@
 # class CategoryHandler:
 #     def haveSameCategory(self, a: int, b: int) -> bool:
 #         pass
+
+from typing import Optional
+
+
 class Solution:
     def numberOfCategories(self, n: int, categoryHandler: Optional['CategoryHandler']) -> int:
         unique = n
