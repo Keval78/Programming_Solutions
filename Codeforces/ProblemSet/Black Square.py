@@ -27,14 +27,24 @@ sys.setrecursionlimit(10 ** 5)
 MOD, MOD2, INF = 10 ** 9 + 7, 998244353, float('inf')
 MAX = 10**5+1
 
-n, k = mi()
-arr = li()
-curr, leader = n, 0
-vals = [(i+1) for i in range(n)]
+n, m = mi()
+cnt = 0
+min_r, max_r, min_c, max_c = n, 0, m, 0
+for i in range(n):
+    s = si()
+    for j in range(m):
+        if s[j] == "B":
+            cnt += 1
+            min_c = min(min_c, j)
+            max_c = max(max_c, j)
 
-for i in range(k):
-    ind = (leader + arr[i]) % len(vals)
-    print(vals[ind], end=" ")
-    del vals[ind]
-    leader = ind % len(vals)
-print()
+            min_r = min(min_r, i)
+            max_r = max(max_r, i)
+
+length = max(max_c-min_c+1, max_r-min_r+1)
+if length > n or length > m:
+    print("-1")
+elif length <= 0:
+    print("1")
+else:
+    print(length*length - cnt)
