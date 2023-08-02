@@ -21,8 +21,7 @@ class SegmentTree:
     def __init__(self, a):
         self._len = len(a)
         self.seg_tree = [0] * (4 * self._len)
-        self.zero_index = True
-        self.build(0 if self.zero_index else 1, 0, self._len - 1)
+        self.build(0, 0, self._len - 1)
 
     def left(self, idx):
         """Index for left child of the node."""
@@ -54,48 +53,48 @@ class SegmentTree:
             self.seg_tree[self.right(idx)]
         )
 
-    def update_recursive(self, idx, l, r, a, b, val):  # noqa: E741
-        """update(1, 1, N, a, b, v) for update val v to [a,b]"""
-        if r < a or l > b:
+    def update_recursive(self, idx, low, high, l, r, val):  # noqa: E741
+        """update(1, 1, N, l, r, v) for update val v to [l,r]"""
+        if r < low or l > high:
             return True
 
-        if l == r:
+        if low == high:
             self.seg_tree[idx] = val
             return True
 
-        mid = (l + r) // 2
-        self.update_recursive(self.left(idx), l, mid, a, b, val)
-        self.update_recursive(self.right(idx), mid + 1, r, a, b, val)
+        mid = (low + high) // 2
+        self.update_recursive(self.left(idx), low, mid, l, r, val)
+        self.update_recursive(self.right(idx), mid + 1, high, l, r, val)
         self.seg_tree[idx] = self.operation(
             self.seg_tree[self.left(idx)],
             self.seg_tree[self.right(idx)]
         )
         return True
 
-    def update(self, a, b, val):
+    def update(self, l, r, val):
         """Update val int Segment Tree"""
-        return self.update_recursive(0 if self.zero_index else 1, 0, self._len - 1, a - 1, b - 1, val)
+        return self.update_recursive(0, 0, self._len - 1, l - 1, r - 1, val)
 
-    def query_recursive(self, idx, l, r, a, b):
-        """query(1, 1, N, a, b) for query max of [a,b]"""
-        # No Overlap: (l, r) not lies inside (a,b)
-        if r < a or l > b:
+    def query_recursive(self, idx, low, high, l, r):
+        """query(1, 1, N, l, r) for query max of [l,r]"""
+        # No Overlap: (low, high) not lies inside (l,r)
+        if r < low or l > high:
             return self.nooverlap_case()
 
-        # Complete Overlap: (l, r) lies inside (a,b)
-        if l >= a and r <= b:
+        # Complete Overlap: (low, high) lies inside (l,r)
+        if l <= low <= high <= r: #low >= l and high <= r:
             return self.seg_tree[idx]
 
         # Partial Overlap traverse both left and right
-        mid = (l + r) // 2
+        mid = (low + high) // 2
         return self.operation(
-            self.query_recursive(self.left(idx), l, mid, a, b),
-            self.query_recursive(self.right(idx), mid + 1, r, a, b)
+            self.query_recursive(self.left(idx), low, mid, l, r),
+            self.query_recursive(self.right(idx), mid + 1, high, l, r)
         )
 
-    def query(self, a, b):
+    def query(self, l, r):
         """Update val int Segment Tree"""
-        return self.query_recursive(0 if self.zero_index else 1, 0, self._len - 1, a - 1, b - 1)
+        return self.query_recursive(0, 0, self._len - 1, l - 1, r - 1)
 
     def show_data(self):
         """Print Segement Tree"""
