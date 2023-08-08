@@ -30,7 +30,7 @@ MAX = 10**5+1
 for _ in range(ii()):
     n = ii()
     s = si()
-    
+
     stack = deque()
     curr_col = 1
     prev = ""
@@ -39,18 +39,17 @@ for _ in range(ii()):
         if not stack:
             stack.append(s[i])
             if prev == "" or prev != s[i]:
-                curr_col = (curr_col+1)%2
+                curr_col = (curr_col+1) % 2
             prev = s[i]
         else:
             if stack[-1] != s[i]:
-               stack.pop()
+                stack.pop()
             else:
                 stack.append(s[i])
-        colors.append(curr_col+1) 
+        colors.append(curr_col+1)
         # print(stack)
     if not stack:
         print(max(colors))
         print(*colors)
     else:
         print(-1)
-
