@@ -19,7 +19,7 @@ class Node:
     data: int
     rank: int
     parent: Optional['Node'] = None
-    
+
     def __post_init__(self):
         self.parent = self
 
@@ -27,9 +27,10 @@ class Node:
 class DisjointSet:
     """DisjointSet Data Structure.
     """
+
     def __init__(self, sets: List[Node]) -> None:
         self.sets = sets
-    
+
     def make_set(self, x: int) -> None:
         """Make x as a set.
         """
@@ -42,9 +43,9 @@ class DisjointSet:
         """Return the parent of x
         """
         if x != x.parent:
-            x.parent = find_set(x.parent)
+            x.parent = self.find_set(x.parent)
         return x.parent
-    
+
     def union_set(self, x: Node, y: Node) -> None:
         """
         Union of two sets.
@@ -62,4 +63,3 @@ class DisjointSet:
             y.parent = x
         else:
             x.parent = y
-        
