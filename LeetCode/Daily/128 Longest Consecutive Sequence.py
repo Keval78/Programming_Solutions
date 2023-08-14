@@ -3,6 +3,7 @@ from typing import List
 
 class DisjointSet:
     def __init__(self, n):
+        self.rank = [0]*n
         self.size = [1]*n
         self.parent = [i for i in range(n)]
 
@@ -21,6 +22,18 @@ class DisjointSet:
         else:
             self.parent[y] = x
             self.size[x] += self.size[y]
+
+    def union_rank(self, x, y):
+        x, y = self.find(x), self.find(y)
+        if x == y:
+            return
+        if self.rank[x] < self.rank[y]:
+            self.parent[x] = y
+        elif self.rank[x] > self.rank[y]:
+            self.parent[y] = x
+        else:
+            self.parent[y] = x
+            self.rank[x] += 1
 
 
 class Solution:
