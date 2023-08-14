@@ -4,6 +4,8 @@ LinkedIn: https://www.linkedin.com/in/kevalpadsala78/
 Github: https://github.com/Keval78
 Leetcode: https://leetcode.com/Keval_78/
 """
+from typing import List
+
 
 def main():
     class Solution:
@@ -16,8 +18,8 @@ def main():
                 else:
                     merged[-1][1] = max(merged[-1][1], interval[1])
             return merged
-            
-    Solution().merge()
+
+    # Solution().merge()
 
 
 if __name__ == "__main__":
