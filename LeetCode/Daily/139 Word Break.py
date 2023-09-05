@@ -1,7 +1,18 @@
+'''
+###### * User Profile : Keval_78 
+LinkedIn: https://www.linkedin.com/in/kevalpadsala78/
+Github: https://github.com/Keval78
+Leetcode: https://leetcode.com/Keval_78/
+'''
+
+from typing import List
+
+
 class TrieNode:
     def __init__(self):
         self.is_word = False
         self.children = {}
+
 
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
@@ -31,7 +42,7 @@ class Solution:
         # for i in range(len(s)):
         #     for word in wordDict:
         #         m = len(word)
-        #         if i < m-1: continue 
+        #         if i < m-1: continue
         #         if (i==m-1 or dp[i-m]) and s[i-m+1:i+1]==word:
         #             dp[i] = True
         #             break
@@ -41,7 +52,8 @@ class Solution:
         def find(root, s, i, dp):
             if root.is_word:
                 dp[i] = True
-            if i+1>=len(s) or s[i+1] not in root.children: return
+            if i+1 >= len(s) or s[i+1] not in root.children:
+                return
             find(root.children[s[i+1]], s, i+1, dp)
 
         root = TrieNode()
@@ -52,7 +64,7 @@ class Solution:
                     curr.children[ch] = TrieNode()
                 curr = curr.children[ch]
             curr.is_word = True
-        
+
         n = len(s)
         dp = [False]*n
         s = list(s)
@@ -61,8 +73,3 @@ class Solution:
                 # Find word from s[i] to... in Trie and set all end True
                 find(root, s, i-1, dp)
         return dp[-1]
-
-
-        
-        
-

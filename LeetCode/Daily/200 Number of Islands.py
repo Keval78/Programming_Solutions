@@ -5,12 +5,16 @@ Github: https://github.com/Keval78
 Leetcode: https://leetcode.com/Keval_78/
 """
 
+from typing import List
+
+
 def main():
     class Solution:
         def traversal(self, i, j, grid):
-            if(i<0 or j<0 or i>len(grid)-1 or j>len(grid[i])-1): return
-            if grid[i][j]=="1":
-                grid[i][j]="0"
+            if (i < 0 or j < 0 or i > len(grid)-1 or j > len(grid[i])-1):
+                return
+            if grid[i][j] == "1":
+                grid[i][j] = "0"
                 self.traversal(i-1, j, grid)
                 self.traversal(i+1, j, grid)
                 self.traversal(i, j-1, grid)
@@ -23,10 +27,8 @@ def main():
                     if grid[i][j] == "1":
                         tot += 1
                         self.traversal(i, j, grid)
-                        
+
             return tot
-            
-    Solution().numIslands()
 
 
 if __name__ == "__main__":
