@@ -28,7 +28,7 @@ sys.setrecursionlimit(10 ** 5)
 MOD, MOD2, INF = 10 ** 9 + 7, 998244353, float('inf')
 MAX = 10**5+1
 
-# DP with Moemoization.
+# DP with Memoization.
 
 
 def digitdp(memo, num: str, idx: int, tight: int):

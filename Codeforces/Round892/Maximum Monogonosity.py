@@ -32,7 +32,7 @@ MAX = 10**5+1
 def calc(a, b, l, r):
     return abs(a[l]-b[r]) + abs(a[r]-b[l])
 
-# DP with Moemoization.
+# DP with Memoization.
 
 
 def dp(memo, a, b, idx, k):

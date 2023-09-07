@@ -9,7 +9,7 @@ class Solution:
     def count(self, num1: str, num2: str, min_sum: int, max_sum: int) -> int:
         MOD = 10**9 + 7
 
-        # DP with Moemoization.
+        # DP with Memoization.
         def digitdp(idx: int, tight1: int, tight2: int, rsum: int, num1: str, num2: str):
             #print(idx, tight1, tight2, rsum, num1, num2)
             if rsum < 0: return 0
