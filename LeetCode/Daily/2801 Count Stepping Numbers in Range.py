@@ -9,7 +9,7 @@ class Solution:
     def countSteppingNumbers(self, low: str, high: str) -> int:
         MOD = 10**9 + 7
 
-        # DP with Memorization
+        # DP with Memoization
         def digitdp(idx: int, prev: int, leading: int, tight1: int, tight2: int, low: str, high: str, memo):
             #print(idx, prev, leading, tight1, tight2, low, high)
             
