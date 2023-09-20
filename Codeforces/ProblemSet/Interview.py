@@ -28,7 +28,7 @@ sys.setrecursionlimit(10 ** 5)
 MOD, MOD2, INF = 10 ** 9 + 7, 998244353, float('inf')
 MAX = 10**5+1
 
-# PYTHON Intrective code...
+# PYTHON Interactive code / Interactive problem...
 
 
 # def input_str(left, right, pre):
