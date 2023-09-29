@@ -12,45 +12,48 @@ https://github.com/TheAlgorithms/Python/blob/master/data_structures/binary_tree/
 Segment Tree Easy & Fast Iplementation for Competitive Coding.
 """
 
-# Implementing Segment Tree... 
+# Implementing Segment Tree...
+# Link: https://codeforces.com/blog/entry/18051
 
-class SegmentTree: 
-    def __init__(self, arr): 
+
+class SegmentTree:
+    def __init__(self, arr):
         self.n = len(arr)
         self.seg_tree = [0]*self.n + arr
-        self.build() 
- 
-    def build(self): 
-        n = self.n
-        for i in range(n-1, 0, -1): 
-            self.seg_tree[i] = self.seg_tree[i<<1] + self.seg_tree[i<<1|1] 
+        self.build()
 
-    def update(self, p, val): 
+    def build(self):
         n = self.n
-        self.seg_tree[p+n] = val 
-        i=p+n 
-        while i>1: 
-            self.seg_tree[i>>1] = self.seg_tree[i] + self.seg_tree[i^1] 
+        for i in range(n-1, 0, -1):
+            self.seg_tree[i] = self.seg_tree[i << 1] + \
+                self.seg_tree[i << 1 | 1]
+
+    def update(self, p, val):
+        n = self.n
+        self.seg_tree[p+n] = val
+        i = p+n
+        while i > 1:
+            self.seg_tree[i >> 1] = self.seg_tree[i] + self.seg_tree[i ^ 1]
             i >>= 1
 
-    def query(self, l, r): 
+    def query(self, l, r):
         res, n = 0, self.n
         l, r = l+n, r+n
         print(self.seg_tree[l:r])
-        while l<r:
+        while l < r:
             print(l, r)
-            if l&1:
+            if l & 1:
                 res += self.seg_tree[l]
-                l+=1
-            if r&1:
-                r-=1
+                l += 1
+            if r & 1:
+                r -= 1
                 res += self.seg_tree[r]
-            l, r = l>>1, r>>1
+            l, r = l >> 1, r >> 1
         return res
 
 
-arr = [1, 2, 3, 4, 5, 6, 7, 8] 
-segt = SegmentTree(arr) 
+arr = [1, 2, 3, 4, 5, 6, 7, 8]
+segt = SegmentTree(arr)
 print(segt.seg_tree)
 print(segt.query(1, 3))
 segt.update(2, 1)
