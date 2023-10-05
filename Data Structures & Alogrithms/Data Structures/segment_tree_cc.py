@@ -51,6 +51,35 @@ class SegmentTree:
             l, r = l >> 1, r >> 1
         return res
 
+    # def update(self, l, r, val):
+    #     n = self.n
+    #     l, r = l+n, r+n
+    #     self.push_down(l, r)
+
+    #     while l < r:
+    #         if l & 1:
+    #             self.seg_tree[l] += val
+    #             l += 1
+    #         if r & 1:
+    #             r -= 1
+    #             self.seg_tree[r] += val
+    #         l, r = l >> 1, r >> 1
+
+    #     self.push_up(l, r)
+
+    # def push_down(self, l, r):
+    #     if self.lazy[l] != 0:
+    #         self.seg_tree[l] += self.lazy[l] * (r-l)
+    #         if l < r-1:
+    #             self.lazy[l << 1] += self.lazy[l]
+    #             self.lazy[l << 1 | 1] += self.lazy[l]
+    #         self.lazy[l] = 0
+
+    # def push_up(self, l, r):
+    #     while l > 1:
+    #         self.seg_tree[l >> 1] = self.seg_tree[l] + self.seg_tree[l ^ 1]
+    #         l >>= 1
+
 
 arr = [1, 2, 3, 4, 5, 6, 7, 8]
 segt = SegmentTree(arr)
