@@ -35,7 +35,6 @@ class Solution:
             if len(heap) > 2: curr_ans = max(curr_ans, min(heap[0], heap[1], heap[2]))
             # print(ch, curr_ans)
             ans = max(ans, curr_ans)
-
         return ans if ans!=0 else -1
 
 
