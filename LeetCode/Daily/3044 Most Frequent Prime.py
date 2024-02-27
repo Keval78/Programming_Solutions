@@ -103,6 +103,6 @@ class Solution:
 
         ans = -1
         if len(cntr) > 0:
-            ans = max(cntr, key= lambda x: (cntr.get(x), x) )
+            ans = max(cntr, key = lambda x: (cntr.get(x), x) )
 
         return ans
