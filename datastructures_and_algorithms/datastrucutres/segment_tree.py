@@ -97,7 +97,7 @@ class SegmentTree:
         return self.query_recursive(0, 0, self._len - 1, l - 1, r - 1)
 
     def show_data(self):
-        """Print Segement Tree"""
+        """Print Segment Tree"""
         show_list = []
         for i in range(1, N + 1):
             show_list += [self.query(i, i)]
